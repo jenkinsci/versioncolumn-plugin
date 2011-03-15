@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>1.401</version>
+  </parent>
+
+    <artifactId>versioncolumn</artifactId>
+    <packaging>hpi</packaging>
+    <version>0.1-SNAPSHOT</version>
+    <name>Jenkins Version Column plugin</name>
+
+    <developers>
+        <developer>
+            <id>ssogabe</id>
+            <name>Seiji Sogabe</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/ssogabe/versioncolumn-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:ssogabe/versioncolumn-plugin.git</developerConnection>
+        <url>http://github.com/ssogabei/versioncolumn-plugin</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+  
+    <repositories>
+        <repository>
+            <id>m.g.o-public</id>
+            <url>http://maven.glassfish.org/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+</project>
