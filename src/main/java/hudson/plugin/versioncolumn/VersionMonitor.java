@@ -59,7 +59,7 @@ public class VersionMonitor extends NodeMonitor {
 
         public String call() throws IOException {
             try {
-                return Launcher.VERSION;
+                return  Launcher.VERSION.replaceAll(" \\(.*\\)$", "");
             } catch (Throwable ex) {
                 // Older slave.jar won't have VERSION
                 return "< 1.335";
