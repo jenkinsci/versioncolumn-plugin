@@ -24,23 +24,42 @@
 package hudson.plugin.versioncolumn;
 
 import hudson.Extension;
+import hudson.Util;
 import hudson.model.Computer;
 import hudson.model.Descriptor.FormException;
 import hudson.node_monitors.AbstractNodeMonitorDescriptor;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
 import hudson.remoting.Launcher;
+import hudson.slaves.OfflineCause;
 import java.io.IOException;
+import java.util.logging.Logger;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 
 public class VersionMonitor extends NodeMonitor {
 
+    private static final String masterVersion = Launcher.VERSION;
+
+    public String toHtml(String version) {
+        if (version != null && !version.equals(masterVersion)) {
+            return Util.wrapToErrorSpan(version);
+        }
+        return (version == null) ? "" : version;
+    }
+
     @Extension
-    public static final class DescriptorImpl extends AbstractNodeMonitorDescriptor<String> {
+    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR = new AbstractNodeMonitorDescriptor<String>() {
 
         protected String monitor(Computer c) throws IOException, InterruptedException {
-            return c.getChannel().call(new SlaveVersion());
+            String version = c.getChannel().call(new SlaveVersion());
+            if (version == null || !version.equals(masterVersion)) {
+                if (!isIgnored()) {
+                    markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
+                    LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                }
+            }
+            return version;
         }
 
         public String getDisplayName() {
@@ -51,7 +70,7 @@ public class VersionMonitor extends NodeMonitor {
         public NodeMonitor newInstance(StaplerRequest req, JSONObject formData) throws FormException {
             return new VersionMonitor();
         }
-    }
+    };
 
     private static final class SlaveVersion implements Callable<String, IOException> {
 
@@ -59,12 +78,13 @@ public class VersionMonitor extends NodeMonitor {
 
         public String call() throws IOException {
             try {
-                return  Launcher.VERSION.replaceAll(" \\(.*\\)$", "");
+                return Launcher.VERSION;
             } catch (Throwable ex) {
                 // Older slave.jar won't have VERSION
                 return "< 1.335";
-            } 
+            }
         }
     }
     
+    private static final Logger LOGGER = Logger.getLogger(VersionMonitor.class.getName());
 }
