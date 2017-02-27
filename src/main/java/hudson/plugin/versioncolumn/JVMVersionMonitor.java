@@ -24,7 +24,6 @@
 package hudson.plugin.versioncolumn;
 
 import hudson.Extension;
-import hudson.Util;
 import hudson.model.Computer;
 import hudson.node_monitors.AbstractAsyncNodeMonitorDescriptor;
 import hudson.node_monitors.NodeMonitor;
@@ -60,14 +59,6 @@ public class JVMVersionMonitor extends NodeMonitor {
 
     public boolean isNoDisconnect() {
         return noDisconnect;
-    }
-
-    @SuppressWarnings("unused") // called from column.jelly
-    public String toHtml(String version) {
-        if (version != null && !version.equals(MASTER_VERSION)) {
-            return Util.wrapToErrorSpan(version);
-        }
-        return (version == null) ? "" : version;
     }
 
     @Override
