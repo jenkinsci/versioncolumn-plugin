@@ -10,7 +10,8 @@
     <artifactId>versioncolumn</artifactId>
     <packaging>hpi</packaging>
     <version>0.3-SNAPSHOT</version>
-    <name>Jenkins Version Column plugin</name>
+    <name>Jenkins Versions Node Monitors plugin</name>
+    <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/VersionColumn+Plugin</url>
 
     <developers>

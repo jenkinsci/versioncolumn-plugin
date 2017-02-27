@@ -1,5 +1,16 @@
 <?jelly escape-by-default='true'?>
 <div>
-  This plugin shows the version of slaves column on "Manage Nodes" page.
+    This plugin offers two node monitors, which makes available two additional columns under the "Manage Nodes"
+    (/computer) page.
+
+    <ul>
+        <li>One for Remoting version in use</li>
+        <li>One for JVM version in use</li>
+    </ul>
+
+    <p>Each monitor includes a way to make temporarily offline the agents that do not use the same/compatible version
+        than
+        the one on the Master node.
+    </p>
 
 </div>
