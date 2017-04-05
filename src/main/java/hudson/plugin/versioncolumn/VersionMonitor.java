@@ -40,11 +40,15 @@ public class VersionMonitor extends NodeMonitor {
 
     private static final String masterVersion = Launcher.VERSION;
 
+    @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
-        if (version != null && !version.equals(masterVersion)) {
+        if (version == null) {
+            return "N/A";
+        }
+        if (!version.equals(masterVersion)) {
             return Util.wrapToErrorSpan(version);
         }
-        return (version == null) ? "" : version;
+        return version;
     }
 
     @Extension

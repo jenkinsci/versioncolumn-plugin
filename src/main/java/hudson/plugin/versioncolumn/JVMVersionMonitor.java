@@ -29,11 +29,18 @@ import hudson.node_monitors.AbstractAsyncNodeMonitorDescriptor;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
 import hudson.slaves.OfflineCause;
+import hudson.util.ListBoxModel;
+import jenkins.model.Jenkins;
 import jenkins.security.MasterToSlaveCallable;
+import org.apache.commons.codec.binary.Hex;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.jar.JarFile;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
 
 public class JVMVersionMonitor extends NodeMonitor {
 
@@ -41,24 +48,21 @@ public class JVMVersionMonitor extends NodeMonitor {
     private static final String MASTER_VERSION = System.getProperty("java.version");
     private static final Logger LOGGER = Logger.getLogger(JVMVersionMonitor.class.getName());
 
-    private boolean exactMatch;
-    private boolean noDisconnect;
+    private JVMVersionComparator.ComparisonMode comparisonMode = JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE;
+    private boolean disconnect = true;
 
     @DataBoundConstructor
-    public JVMVersionMonitor(boolean exactMatch, boolean noDisconnect) {
-        this.exactMatch = exactMatch;
-        this.noDisconnect = noDisconnect;
+    public JVMVersionMonitor(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
+        this.comparisonMode = comparisonMode;
+        this.disconnect = disconnect;
     }
 
     public JVMVersionMonitor() {
     }
 
-    public boolean isExactMatch() {
-        return exactMatch;
-    }
-
-    public boolean isNoDisconnect() {
-        return noDisconnect;
+    @SuppressWarnings("unused") // jelly
+    public boolean isDisconnect() {
+        return disconnect;
     }
 
     @Override
@@ -69,19 +73,23 @@ public class JVMVersionMonitor extends NodeMonitor {
             return "N/A";
         }
         final JVMVersionComparator jvmVersionComparator =
-                new JVMVersionComparator(MASTER_VERSION, agentVersion, exactMatch);
+                new JVMVersionComparator(MASTER_VERSION, agentVersion, comparisonMode);
 
         if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
-            if (noDisconnect) {
-                LOGGER.finer(
-                        "Version incompatibility detected, but keeping the agent '" + c.getName() + "' online per the node monitor configuration");
-            } else {
+            if (disconnect) {
                 LOGGER.warning(Messages.JVMVersionMonitor_MarkedOffline(c.getName(), MASTER_VERSION, agentVersion));
                 ((JvmVersionDescriptor) getDescriptor()).markOffline(c, OfflineCause.create(
                         Messages._JVMVersionMonitor_OfflineCause()));
+            } else {
+                LOGGER.finer(
+                        "Version incompatibility detected, but keeping the agent '" + c.getName() + "' online per the node monitor configuration");
             }
         }
         return agentVersion;
+    }
+
+    public JVMVersionComparator.ComparisonMode getComparisonMode() {
+        return comparisonMode;
     }
 
     @Extension
@@ -99,6 +107,14 @@ public class JVMVersionMonitor extends NodeMonitor {
         @Override // Just augmenting visibility
         public boolean markOffline(Computer c, OfflineCause oc) {
             return super.markOffline(c, oc);
+        }
+
+        public ListBoxModel doFillComparisonModeItems() {
+            ListBoxModel items = new ListBoxModel();
+            for (JVMVersionComparator.ComparisonMode goal : JVMVersionComparator.ComparisonMode.values()) {
+                items.add(goal.getDescription(), goal.name());
+            }
+            return items;
         }
     }
 

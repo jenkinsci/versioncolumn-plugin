@@ -23,10 +23,10 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
-    <f:entry title="${%Exact Match for JVM Version}" field="exactMatch">
-        <f:checkbox />
+    <f:entry field="comparisonMode" title="${%Comparison mode of Agent and Master JVMs}" >
+        <f:select />
     </f:entry>
-    <f:entry title="${%Do NOT disconnect agent when incompatibility is found}" field="noDisconnect">
+    <f:entry title="${%Disconnect agent when incompatibility is found}" field="disconnect">
         <f:checkbox />
     </f:entry>
 </j:jelly>
