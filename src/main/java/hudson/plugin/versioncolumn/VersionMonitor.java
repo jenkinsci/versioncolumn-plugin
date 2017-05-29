@@ -26,12 +26,11 @@ package hudson.plugin.versioncolumn;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
-import hudson.model.Descriptor.FormException;
 import hudson.node_monitors.AbstractNodeMonitorDescriptor;
 import hudson.node_monitors.NodeMonitor;
-import hudson.remoting.Callable;
 import hudson.remoting.Launcher;
 import hudson.slaves.OfflineCause;
+import jenkins.security.MasterToSlaveCallable;
 import java.io.IOException;
 import java.util.logging.Logger;
 import net.sf.json.JSONObject;
@@ -41,11 +40,15 @@ public class VersionMonitor extends NodeMonitor {
 
     private static final String masterVersion = Launcher.VERSION;
 
+    @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
-        if (version != null && !version.equals(masterVersion)) {
+        if (version == null) {
+            return "N/A";
+        }
+        if (!version.equals(masterVersion)) {
             return Util.wrapToErrorSpan(version);
         }
-        return (version == null) ? "" : version;
+        return version;
     }
 
     @Extension
@@ -72,7 +75,7 @@ public class VersionMonitor extends NodeMonitor {
         }
     };
 
-    private static final class SlaveVersion implements Callable<String, IOException> {
+    private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 
         private static final long serialVersionUID = 1L;
 

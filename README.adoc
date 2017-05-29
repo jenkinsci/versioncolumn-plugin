@@ -1,0 +1,40 @@
+= VersionColumn Plugin
+
+This plugin offers two _node monitors_:
+
+* Remoting Version
+* JVM Version
+
+== Remoting Version Node Monitor
+
+NOTE: Remoting is the library that handles the network connection between Master and agents.
+
+This monitor will disconnect an agent if it does not run the same version of the Remoting library than the one on the Master.
+
+== JVM Version Node Monitor
+
+This monitor offers 3 levels of monitoring:
+
+[cols="2", options="header,border"]
+|===
+| Description
+| Examples
+
+a| (default) Agent must run a JVM whose version is greater or equal than the one the Master was compiled against (strongly recommended minimum).
+
+NOTE: Even outside the context of that plugin, respecting that requirement is **critical** to the health of your Jenkins cluster.
+a|
+* an agent running Java 6 or less will be disconnected from 2.32.3 Master
+* an agent running Java 6 will not be disconnected from a 1.609 Master
+* an agent running Java 7 will be disconnected from a 2.54 Master
+
+| Agent must run a JVM whose major.minor version is equal to the Master one (recommended to avoid issues, already seen in the field).
+a|
+* an agent running 1.7 or less will be disconnected from a Master running 1.8.112
+* an agent running 1.8.66 will not be disconnected from a Master running 1.8.112
+
+| Agent must run a JVM whose version is *exactly* equal to the Master one (paranoid option)
+a|
+* an agent running 1.8.66 will be disconnected from a Master running 1.8.112
+
+|===
