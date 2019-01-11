@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>2.21</version>
+        <version>3.32</version>
     </parent>
 
     <artifactId>versioncolumn</artifactId>
@@ -16,8 +16,19 @@
 
     <developers>
         <developer>
+            <id>batmat</id>
+            <name>Baptiste Mathus</name>
+            <email>batmat@batmat.net</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+		</developer>
+        <developer>
             <id>ssogabe</id>
             <name>Seiji Sogabe</name>
+            <roles>
+                <role>emeritus</role>
+            </roles>
         </developer>
     </developers>
 
@@ -30,8 +41,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jenkins.version>1.625.3</jenkins.version>
-        <hpi-plugin.version>1.115</hpi-plugin.version>
+        <jenkins.version>2.60.3</jenkins.version>
+        <java.level>8</java.level>
     </properties>
 
     <dependencies>
@@ -62,5 +73,4 @@
             <url>http://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
-</project>  
-
+</project>
