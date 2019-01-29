@@ -10,6 +10,8 @@ class JVMConstants {
     public static final int JAVA_7 = 51;
     public static final int JAVA_8 = 52;
     public static final int JAVA_9 = 53;
+    public static final int JAVA_10 = 54;
+    public static final int JAVA_11 = 55;
 
     static final Map<String, Integer> JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING = new LinkedHashMap<String, Integer>();
 
@@ -27,5 +29,10 @@ class JVMConstants {
         JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("8", JAVA_8);
         JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("1.9", JAVA_9);
         JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("9", JAVA_9);
+        JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("9.0", JAVA_9);
+        JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("10", JAVA_10);
+        JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("10.0", JAVA_10);
+        JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("11", JAVA_11);
+        JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.put("11.0", JAVA_11);
     }
 }
