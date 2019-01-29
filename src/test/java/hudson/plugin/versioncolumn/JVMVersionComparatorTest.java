@@ -5,8 +5,11 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.jvnet.hudson.test.Issue;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnitParamsRunner.class)
@@ -104,4 +107,13 @@ public class JVMVersionComparatorTest {
                                             }).isNotCompatible());
     }
 
+    @Issue("JENKINS-53445")
+    @Test
+    public void shouldNotThrowNPEWhenJVMVersionIsNotRecognized() {
+        JVMVersionComparator jvmVersionComparator =
+              new JVMVersionComparator("99.9", "99.9",
+                    JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
+        assertNotNull(jvmVersionComparator);
+        assertFalse(jvmVersionComparator.isCompatible());
+    }
 }
