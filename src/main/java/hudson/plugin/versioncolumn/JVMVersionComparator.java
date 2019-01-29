@@ -92,8 +92,15 @@ class JVMVersionComparator {
     private boolean isAgentRuntimeCompatibleWithJenkinsBytecodeLevel(String agentMajorMinorVersion) {
         Integer masterBytecodeLevel = getMasterBytecodeMajorVersionNumber();
         Integer agentVMMaxBytecodeLevel = JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.get(agentMajorMinorVersion);
-
-        return masterBytecodeLevel <= agentVMMaxBytecodeLevel;
+        if (agentVMMaxBytecodeLevel != null) {
+            return masterBytecodeLevel <= agentVMMaxBytecodeLevel;
+        } else {
+            LOGGER.log(Level.WARNING, Messages.JVMVersionMonitor_UnrecognizedAgentJVM(agentMajorMinorVersion));
+            /*
+             * Even if the version might be compatible, we still mark the node as incompatible to prevent potential issues.
+             */
+            return false;
+        }
     }
 
     public boolean isCompatible() {
