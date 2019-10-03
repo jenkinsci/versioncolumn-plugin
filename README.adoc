@@ -15,17 +15,18 @@ This monitor will disconnect an agent if it is not running the same version of r
 
 This monitor offers 3 levels of monitoring:
 
-[cols="3", options="header,border"]
+[cols="2", options="header,border"]
 |===
 | Level
-| Description
-| Examples
+| Description & Examples
 
 | `Default`
 a| Agent must run a JVM whose **major** version is greater or equal than the one the master is running (strongly recommended minimum).
 
 Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
-a|
+
+Examples:
+
 * an agent running Java 7 or less will be disconnected from a Java 8u222 master
 * an agent running Java 8u172  will **not** be disconnected from a Java 8u222 master
 * an agent running Java 8u222  will **not** be disconnected from a Java 8u172 master
@@ -36,8 +37,10 @@ a|
 * an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
 | `Paranoid`
-| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
-a|
+a| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
+
+Examples:
+
 * an agent running Java 7 or less will be disconnected from a Java 8u222 master
 * an agent running Java 8u172  will be disconnected from a Java 8u222 master
 * an agent running Java 8u222  will **not** be disconnected from a Java 8u172 master
@@ -48,8 +51,10 @@ a|
 * an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
 | `Paranoid++`
-| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
-a|
+a| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
+
+Examples:
+
 * an agent running Java 7 or less will be disconnected from a Java 8u222 master
 * an agent running Java 8u172  will be disconnected from a Java 8u222 master
 * an agent running Java 8u222  will be disconnected from a Java 8u172 master
