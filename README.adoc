@@ -21,10 +21,10 @@ This monitor offers 3 levels of monitoring:
 | Description
 | Examples
 
-| Default
+| `Default`
 a| Agent must run a JVM whose **major** version is greater or equal than the one the master is running (strongly recommended minimum).
 
-NOTE: Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
+Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
 a|
 * an agent running Java 7 or less will be disconnected from a Java 8u222 master
 * an agent running Java 8u172  will **not** be disconnected from a Java 8u222 master
@@ -35,7 +35,7 @@ a|
 * an agent running Java 11.03 will **not** be disconnected from a Java 11.04 master
 * an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
-| Paranoid
+| `Paranoid`
 | Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
 a|
 * an agent running Java 7 or less will be disconnected from a Java 8u222 master
@@ -47,7 +47,7 @@ a|
 * an agent running Java 11.03 will be disconnected from a Java 11.04 master
 * an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
-| Paranoid\+\+
+| `Paranoid++`
 | Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
 a|
 * an agent running Java 7 or less will be disconnected from a Java 8u222 master
