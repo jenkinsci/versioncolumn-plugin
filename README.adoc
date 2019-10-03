@@ -7,9 +7,9 @@ This plugin offers two _node monitors_:
 
 == Remoting Version Node Monitor
 
-NOTE: Remoting is the library that handles the network connection between Master and agents.
+NOTE: The link:https://github.com/jenkinsci/remoting/blob/master/README.md[remoting module] handles the network connection between the Jenkins master and agents.
 
-This monitor will disconnect an agent if it does not run the same version of the Remoting library than the one on the Master.
+This monitor will disconnect an agent if it is not running the same version of remoting library as the version on the Jenkins master.
 
 == JVM Version Node Monitor
 
