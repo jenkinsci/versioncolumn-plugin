@@ -15,26 +15,48 @@ This monitor will disconnect an agent if it is not running the same version of r
 
 This monitor offers 3 levels of monitoring:
 
-[cols="2", options="header,border"]
+[cols="3", options="header,border"]
 |===
+| Level
 | Description
 | Examples
 
-a| (default) Agent must run a JVM whose version is greater or equal than the one the Master was compiled against (strongly recommended minimum).
+| Default
+a| Agent must run a JVM whose **major** version is greater or equal than the one the master is running (strongly recommended minimum).
 
-NOTE: Even outside the context of that plugin, respecting that requirement is **critical** to the health of your Jenkins cluster.
+NOTE: Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
 a|
-* an agent running Java 6 or less will be disconnected from 2.32.3 Master
-* an agent running Java 6 will not be disconnected from a 1.609 Master
-* an agent running Java 7 will be disconnected from a 2.54 Master
+* an agent running Java 7 or less will be disconnected from a Java 8u222 master
+* an agent running Java 8u172  will **not** be disconnected from a Java 8u222 master
+* an agent running Java 8u222  will **not** be disconnected from a Java 8u172 master
+* an agent running Java 8u222  will **not** be disconnected from a Java 8u222 master
+* an agent running Java 11.03 will **not** be disconnected from a Java 8u222 master
+* an agent running Java 8u222 will be disconnected from a Java 11.03 master
+* an agent running Java 11.03 will **not** be disconnected from a Java 11.04 master
+* an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
-| Agent must run a JVM whose major.minor version is equal to the Master one (recommended to avoid issues, already seen in the field).
+| Paranoid
+| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
 a|
-* an agent running 1.7 or less will be disconnected from a Master running 1.8.112
-* an agent running 1.8.66 will not be disconnected from a Master running 1.8.112
+* an agent running Java 7 or less will be disconnected from a Java 8u222 master
+* an agent running Java 8u172  will be disconnected from a Java 8u222 master
+* an agent running Java 8u222  will **not** be disconnected from a Java 8u172 master
+* an agent running Java 8u222  will **not** be disconnected from a Java 8u222 master
+* an agent running Java 11.03 will be disconnected from a Java 8u222 master
+* an agent running Java 8u222 will be disconnected from a Java 11.03 master
+* an agent running Java 11.03 will be disconnected from a Java 11.04 master
+* an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
-| Agent must run a JVM whose version is *exactly* equal to the Master one (paranoid option)
+| Paranoid\+\+
+| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
 a|
-* an agent running 1.8.66 will be disconnected from a Master running 1.8.112
+* an agent running Java 7 or less will be disconnected from a Java 8u222 master
+* an agent running Java 8u172  will be disconnected from a Java 8u222 master
+* an agent running Java 8u222  will be disconnected from a Java 8u172 master
+* an agent running Java 8u222  will **not** be disconnected from a Java 8u222 master
+* an agent running Java 11.03 will be disconnected from a Java 8u222 master
+* an agent running Java 8u222 will be disconnected from a Java 11.03 master
+* an agent running Java 11.03 will be disconnected from a Java 11.04 master
+* an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
 
 |===
