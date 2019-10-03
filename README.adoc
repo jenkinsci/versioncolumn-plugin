@@ -65,3 +65,7 @@ Examples:
 * Java 11.04 agent will not be disconnected from a Java 11.04 master
 
 |===
+
+== Configuration Page
+
+image::images/configuration-options.png[Enable Versions Node Monitors]
