@@ -1,4 +1,4 @@
-= VersionColumn Plugin
+= Versions Node Monitors Plugin
 
 This plugin offers two _node monitors_:
 
