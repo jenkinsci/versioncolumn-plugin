@@ -25,7 +25,7 @@ a| Agent must run a JVM whose **major** version is greater or equal than the one
 
 Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
 
-Examples:
+**Examples**:
 
 * Java 7     agent **will be disconnected** from a Java 8u222 master
 * Java 8u172 agent will not be disconnected from a Java 8u222 master
@@ -39,7 +39,7 @@ Examples:
 | `Paranoid`
 a| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
 
-Examples:
+**Examples**:
 
 * Java 7     agent **will be disconnected** from a Java 8u222 master
 * Java 8u172 agent **will be disconnected** from a Java 8u222 master
@@ -53,7 +53,7 @@ Examples:
 | `Paranoid++`
 a| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
 
-Examples:
+**Examples**:
 
 * Java 7     agent **will be disconnected** from a Java 8u222 master
 * Java 8u172 agent **will be disconnected** from a Java 8u222 master
