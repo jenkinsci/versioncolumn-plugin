@@ -27,41 +27,41 @@ Even without this plugin, it is **critical** to the health of your Jenkins clust
 
 Examples:
 
-* an agent running Java 7 or less will be disconnected from a Java 8u222 master
-* an agent running Java 8u172  will **not** be disconnected from a Java 8u222 master
-* an agent running Java 8u222  will **not** be disconnected from a Java 8u172 master
-* an agent running Java 8u222  will **not** be disconnected from a Java 8u222 master
-* an agent running Java 11.03 will **not** be disconnected from a Java 8u222 master
-* an agent running Java 8u222 will be disconnected from a Java 11.03 master
-* an agent running Java 11.03 will **not** be disconnected from a Java 11.04 master
-* an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
+* Java 7     agent **will be disconnected** from a Java 8u222 master
+* Java 8u172 agent will not be disconnected from a Java 8u222 master
+* Java 8u222 agent will not be disconnected from a Java 8u172 master
+* Java 8u222 agent will not be disconnected from a Java 8u222 master
+* Java 11.03 agent will not be disconnected from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 11.03 master
+* Java 11.03 agent will not be disconnected from a Java 11.04 master
+* Java 11.04 agent will not be disconnected from a Java 11.04 master
 
 | `Paranoid`
 a| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
 
 Examples:
 
-* an agent running Java 7 or less will be disconnected from a Java 8u222 master
-* an agent running Java 8u172  will be disconnected from a Java 8u222 master
-* an agent running Java 8u222  will **not** be disconnected from a Java 8u172 master
-* an agent running Java 8u222  will **not** be disconnected from a Java 8u222 master
-* an agent running Java 11.03 will be disconnected from a Java 8u222 master
-* an agent running Java 8u222 will be disconnected from a Java 11.03 master
-* an agent running Java 11.03 will be disconnected from a Java 11.04 master
-* an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
+* Java 7     agent **will be disconnected** from a Java 8u222 master
+* Java 8u172 agent **will be disconnected** from a Java 8u222 master
+* Java 8u222 agent will not be disconnected from a Java 8u172 master
+* Java 8u222 agent will not be disconnected from a Java 8u222 master
+* Java 11.03 agent will not be disconnected from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 11.03 master
+* Java 11.03 agent **will be disconnected** from a Java 11.04 master
+* Java 11.04 agent will not be disconnected from a Java 11.04 master
 
 | `Paranoid++`
 a| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
 
 Examples:
 
-* an agent running Java 7 or less will be disconnected from a Java 8u222 master
-* an agent running Java 8u172  will be disconnected from a Java 8u222 master
-* an agent running Java 8u222  will be disconnected from a Java 8u172 master
-* an agent running Java 8u222  will **not** be disconnected from a Java 8u222 master
-* an agent running Java 11.03 will be disconnected from a Java 8u222 master
-* an agent running Java 8u222 will be disconnected from a Java 11.03 master
-* an agent running Java 11.03 will be disconnected from a Java 11.04 master
-* an agent running Java 11.04 will **not** be disconnected from a Java 11.04 master
+* Java 7     agent **will be disconnected** from a Java 8u222 master
+* Java 8u172 agent **will be disconnected** from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 8u172 master
+* Java 8u222 agent will not be disconnected from a Java 8u222 master
+* Java 11.03 agent **will be disconnected** from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 11.03 master
+* Java 11.03 agent **will be disconnected** from a Java 11.04 master
+* Java 11.04 agent will not be disconnected from a Java 11.04 master
 
 |===
