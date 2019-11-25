@@ -1,4 +1,4 @@
-= VersionColumn Plugin
+= Versions Node Monitors Plugin
 
 This plugin offers two _node monitors_:
 
@@ -7,9 +7,9 @@ This plugin offers two _node monitors_:
 
 == Remoting Version Node Monitor
 
-NOTE: Remoting is the library that handles the network connection between Master and agents.
+NOTE: The link:https://github.com/jenkinsci/remoting/blob/master/README.md[remoting module] handles the network connection between the Jenkins master and agents.
 
-This monitor will disconnect an agent if it does not run the same version of the Remoting library than the one on the Master.
+This monitor will disconnect an agent if it is not running the same version of remoting library as the version on the Jenkins master.
 
 == JVM Version Node Monitor
 
@@ -17,24 +17,55 @@ This monitor offers 3 levels of monitoring:
 
 [cols="2", options="header,border"]
 |===
-| Description
-| Examples
+| Level
+| Description & Examples
 
-a| (default) Agent must run a JVM whose version is greater or equal than the one the Master was compiled against (strongly recommended minimum).
+| `Default`
+a| Agent must run a JVM whose **major** version is greater or equal than the one the master is running (strongly recommended minimum).
 
-NOTE: Even outside the context of that plugin, respecting that requirement is **critical** to the health of your Jenkins cluster.
-a|
-* an agent running Java 6 or less will be disconnected from 2.32.3 Master
-* an agent running Java 6 will not be disconnected from a 1.609 Master
-* an agent running Java 7 will be disconnected from a 2.54 Master
+Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
 
-| Agent must run a JVM whose major.minor version is equal to the Master one (recommended to avoid issues, already seen in the field).
-a|
-* an agent running 1.7 or less will be disconnected from a Master running 1.8.112
-* an agent running 1.8.66 will not be disconnected from a Master running 1.8.112
+**Examples**:
 
-| Agent must run a JVM whose version is *exactly* equal to the Master one (paranoid option)
-a|
-* an agent running 1.8.66 will be disconnected from a Master running 1.8.112
+* Java 7     agent **will be disconnected** from a Java 8u222 master
+* Java 8u172 agent will not be disconnected from a Java 8u222 master
+* Java 8u222 agent will not be disconnected from a Java 8u172 master
+* Java 8u222 agent will not be disconnected from a Java 8u222 master
+* Java 11.03 agent will not be disconnected from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 11.03 master
+* Java 11.03 agent will not be disconnected from a Java 11.04 master
+* Java 11.04 agent will not be disconnected from a Java 11.04 master
+
+| `Paranoid`
+a| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
+
+**Examples**:
+
+* Java 7     agent **will be disconnected** from a Java 8u222 master
+* Java 8u172 agent **will be disconnected** from a Java 8u222 master
+* Java 8u222 agent will not be disconnected from a Java 8u172 master
+* Java 8u222 agent will not be disconnected from a Java 8u222 master
+* Java 11.03 agent will not be disconnected from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 11.03 master
+* Java 11.03 agent **will be disconnected** from a Java 11.04 master
+* Java 11.04 agent will not be disconnected from a Java 11.04 master
+
+| `Paranoid++`
+a| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
+
+**Examples**:
+
+* Java 7     agent **will be disconnected** from a Java 8u222 master
+* Java 8u172 agent **will be disconnected** from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 8u172 master
+* Java 8u222 agent will not be disconnected from a Java 8u222 master
+* Java 11.03 agent **will be disconnected** from a Java 8u222 master
+* Java 8u222 agent **will be disconnected** from a Java 11.03 master
+* Java 11.03 agent **will be disconnected** from a Java 11.04 master
+* Java 11.04 agent will not be disconnected from a Java 11.04 master
 
 |===
+
+== Configuration Page
+
+image::images/configuration-options.png[Enable Versions Node Monitors]

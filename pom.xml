@@ -12,7 +12,7 @@
     <version>${revision}${changelist}</version>
     <name>Jenkins Versions Node Monitors plugin</name>
     <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
-    <url>http://wiki.jenkins-ci.org/display/JENKINS/VersionColumn+Plugin</url>
+    <url>https://github.com/jenkinsci/versioncolumn-plugin</url>
 
     <developers>
         <developer>
