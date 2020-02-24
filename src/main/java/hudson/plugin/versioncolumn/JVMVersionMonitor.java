@@ -30,17 +30,11 @@ import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
 import hudson.slaves.OfflineCause;
 import hudson.util.ListBoxModel;
-import jenkins.model.Jenkins;
 import jenkins.security.MasterToSlaveCallable;
-import org.apache.commons.codec.binary.Hex;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.jar.JarFile;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
 
 public class JVMVersionMonitor extends NodeMonitor {
 
