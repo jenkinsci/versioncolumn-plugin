@@ -9,7 +9,7 @@
 
     <artifactId>versioncolumn</artifactId>
     <packaging>hpi</packaging>
-    <version>2.2</version>
+    <version>${revision}${changelist}</version>
     <name>Jenkins Versions Node Monitors plugin</name>
     <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
     <url>https://github.com/jenkinsci/versioncolumn-plugin</url>
@@ -36,11 +36,11 @@
         <connection>scm:git:git://github.com/jenkinsci/versioncolumn-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/versioncolumn-plugin.git</developerConnection>
         <url>http://github.com/jenkinsci/versioncolumn-plugin</url>
-      <tag>versioncolumn-2.2</tag>
+      <tag>${scmTag}</tag>
   </scm>
 
     <properties>
-        <revision>2.2</revision>
+        <revision>2.3</revision>
         <changelist>-SNAPSHOT</changelist>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jenkins.version>2.277.4</jenkins.version>
