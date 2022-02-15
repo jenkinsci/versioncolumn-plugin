@@ -1,29 +1,25 @@
 package hudson.plugin.versioncolumn;
 
-
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.jvnet.hudson.test.Issue;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(JUnitParamsRunner.class)
 public class JVMVersionComparatorTest {
 
     @Test
     public void computeMajorMinor() {
-
         assertEquals("1.8", JVMVersionComparator.computeMajorMinor("1.8.0"));
         assertEquals("1.8", JVMVersionComparator.computeMajorMinor("1.8.0_66"));
         assertEquals("1.8", JVMVersionComparator.computeMajorMinor("1.8.1-blah_whatever$wat"));
     }
 
-    private Object[] parametersForCompatible() {
+    private static Object[] parametersForCompatible() {
         return new Object[][]{
                 {"1.8.0", "1.8.0", true},
                 {"1.8.0", "1.8.0", false},
@@ -33,7 +29,7 @@ public class JVMVersionComparatorTest {
         };
     }
 
-    private Object[] parametersForIncompatible() {
+    private static Object[] parametersForIncompatible() {
         return new Object[][]{
                 {"1.5.0", "1.5.1", true},
                 {"1.7.0", "1.6.0", true},
@@ -42,15 +38,15 @@ public class JVMVersionComparatorTest {
         };
     }
 
-    @Test
-    @Parameters
+    @ParameterizedTest
+    @MethodSource("parametersForCompatible")
     public void compatible(String masterVersion, String agentVersion, boolean exactMatch) {
         JVMVersionComparator.ComparisonMode comparisonMode = toExactMatch(exactMatch);
         assertTrue(new JVMVersionComparator(masterVersion, agentVersion, comparisonMode).isCompatible());
     }
 
-    @Test
-    @Parameters
+    @ParameterizedTest
+    @MethodSource("parametersForIncompatible")
     public void incompatible(String masterVersion, String agentVersion, boolean exactMatch) {
         JVMVersionComparator.ComparisonMode comparisonMode = toExactMatch(exactMatch);
         assertTrue(new JVMVersionComparator(masterVersion, agentVersion, comparisonMode).isNotCompatible());
@@ -64,7 +60,7 @@ public class JVMVersionComparatorTest {
         }
     }
 
-    private Object[] parametersForCompatibleBytecodeLevel() {
+    private static Object[] parametersForCompatibleBytecodeLevel() {
         return new Object[][]{
                 {"1.8.0", JVMConstants.JAVA_8},
                 {"1.8.0", JVMConstants.JAVA_7},
@@ -72,7 +68,7 @@ public class JVMVersionComparatorTest {
         };
     }
 
-    private Object[] parametersForIncompatibleBytecodeLevel() {
+    private static Object[] parametersForIncompatibleBytecodeLevel() {
         return new Object[][]{
                 {"1.7.0", JVMConstants.JAVA_8},
                 {"1.6.1", JVMConstants.JAVA_7},
@@ -81,8 +77,8 @@ public class JVMVersionComparatorTest {
     }
 
 
-    @Test
-    @Parameters
+    @ParameterizedTest
+    @MethodSource("parametersForCompatibleBytecodeLevel")
     public void compatibleBytecodeLevel(String agentVMVersion, final int masterBytecodeMajorVersion) {
         assertTrue(new JVMVersionComparator("whatever", agentVMVersion,
                                             JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
@@ -94,8 +90,8 @@ public class JVMVersionComparatorTest {
                                             }).isCompatible());
     }
 
-    @Test
-    @Parameters
+    @ParameterizedTest
+    @MethodSource("parametersForIncompatibleBytecodeLevel")
     public void incompatibleBytecodeLevel(String agentVMVersion, final int masterBytecodeMajorVersion) {
         assertTrue(new JVMVersionComparator("whatever", agentVMVersion,
                                             JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
