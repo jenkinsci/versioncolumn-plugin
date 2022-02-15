@@ -7,4 +7,5 @@ target
 *.iws
 work
 .java-version
+.idea
 
