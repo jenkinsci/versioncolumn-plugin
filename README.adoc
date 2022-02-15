@@ -7,9 +7,9 @@ This plugin offers two _node monitors_:
 
 == Remoting Version Node Monitor
 
-NOTE: The link:https://github.com/jenkinsci/remoting/blob/master/README.md[remoting module] handles the network connection between the Jenkins master and agents.
+NOTE: The link:https://github.com/jenkinsci/remoting/blob/master/README.md[remoting module] handles the network connection between the Jenkins controller and agents.
 
-This monitor will disconnect an agent if it is not running the same version of remoting library as the version on the Jenkins master.
+This monitor will disconnect an agent if it is not running the same version of remoting library as the version on the Jenkins controller.
 
 == JVM Version Node Monitor
 
@@ -21,48 +21,48 @@ This monitor offers 3 levels of monitoring:
 | Description & Examples
 
 | `Default`
-a| Agent must run a JVM whose **major** version is greater or equal than the one the master is running (strongly recommended minimum).
+a| Agent must run a JVM whose **major** version is greater or equal than the one the controller is running (strongly recommended minimum).
 
-Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the master JVM major version.
+Even without this plugin, it is **critical** to the health of your Jenkins cluster that the agent JVM major version **match** the controller JVM major version.
 
 **Examples**:
 
-* Java 7     agent **will be disconnected** from a Java 8u222 master
-* Java 8u172 agent will not be disconnected from a Java 8u222 master
-* Java 8u222 agent will not be disconnected from a Java 8u172 master
-* Java 8u222 agent will not be disconnected from a Java 8u222 master
-* Java 11.03 agent will not be disconnected from a Java 8u222 master
-* Java 8u222 agent **will be disconnected** from a Java 11.03 master
-* Java 11.03 agent will not be disconnected from a Java 11.04 master
-* Java 11.04 agent will not be disconnected from a Java 11.04 master
+* Java 7     agent **will be disconnected** from a Java 8u222 controller
+* Java 8u172 agent will not be disconnected from a Java 8u222 controller
+* Java 8u222 agent will not be disconnected from a Java 8u172 controller
+* Java 8u222 agent will not be disconnected from a Java 8u222 controller
+* Java 11.03 agent will not be disconnected from a Java 8u222 controller
+* Java 8u222 agent **will be disconnected** from a Java 11.03 controller
+* Java 11.03 agent will not be disconnected from a Java 11.04 controller
+* Java 11.04 agent will not be disconnected from a Java 11.04 controller
 
 | `Paranoid`
-a| Agent must run a JVM whose **major.minor** version is greater or equal to the master version (avoid issues already seen by users).
+a| Agent must run a JVM whose **major.minor** version is greater or equal to the controller version (avoid issues already seen by users).
 
 **Examples**:
 
-* Java 7     agent **will be disconnected** from a Java 8u222 master
-* Java 8u172 agent **will be disconnected** from a Java 8u222 master
-* Java 8u222 agent will not be disconnected from a Java 8u172 master
-* Java 8u222 agent will not be disconnected from a Java 8u222 master
-* Java 11.03 agent will not be disconnected from a Java 8u222 master
-* Java 8u222 agent **will be disconnected** from a Java 11.03 master
-* Java 11.03 agent **will be disconnected** from a Java 11.04 master
-* Java 11.04 agent will not be disconnected from a Java 11.04 master
+* Java 7     agent **will be disconnected** from a Java 8u222 controller
+* Java 8u172 agent **will be disconnected** from a Java 8u222 controller
+* Java 8u222 agent will not be disconnected from a Java 8u172 controller
+* Java 8u222 agent will not be disconnected from a Java 8u222 controller
+* Java 11.03 agent will not be disconnected from a Java 8u222 controller
+* Java 8u222 agent **will be disconnected** from a Java 11.03 controller
+* Java 11.03 agent **will be disconnected** from a Java 11.04 controller
+* Java 11.04 agent will not be disconnected from a Java 11.04 controller
 
 | `Paranoid++`
-a| Agent must run a JVM whose version is *exactly* equal to the master version (most paranoid option)
+a| Agent must run a JVM whose version is *exactly* equal to the controller version (most paranoid option)
 
 **Examples**:
 
-* Java 7     agent **will be disconnected** from a Java 8u222 master
-* Java 8u172 agent **will be disconnected** from a Java 8u222 master
-* Java 8u222 agent **will be disconnected** from a Java 8u172 master
-* Java 8u222 agent will not be disconnected from a Java 8u222 master
-* Java 11.03 agent **will be disconnected** from a Java 8u222 master
-* Java 8u222 agent **will be disconnected** from a Java 11.03 master
-* Java 11.03 agent **will be disconnected** from a Java 11.04 master
-* Java 11.04 agent will not be disconnected from a Java 11.04 master
+* Java 7     agent **will be disconnected** from a Java 8u222 controller
+* Java 8u172 agent **will be disconnected** from a Java 8u222 controller
+* Java 8u222 agent **will be disconnected** from a Java 8u172 controller
+* Java 8u222 agent will not be disconnected from a Java 8u222 controller
+* Java 11.03 agent **will be disconnected** from a Java 8u222 controller
+* Java 8u222 agent **will be disconnected** from a Java 11.03 controller
+* Java 11.03 agent **will be disconnected** from a Java 11.04 controller
+* Java 11.04 agent will not be disconnected from a Java 11.04 controller
 
 |===
 
