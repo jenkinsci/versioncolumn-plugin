@@ -23,7 +23,7 @@ THE SOFTWARE.
 -->
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
-    <f:entry field="comparisonMode" title="${%Comparison mode of Agent and Master JVMs}" >
+    <f:entry field="comparisonMode" title="${%Comparison mode of Agent and Controller JVMs}" >
         <f:select />
     </f:entry>
     <f:entry title="${%Disconnect agent when incompatibility is found}" field="disconnect">
