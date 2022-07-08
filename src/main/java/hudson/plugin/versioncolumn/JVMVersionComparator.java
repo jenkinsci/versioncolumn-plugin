@@ -25,6 +25,7 @@ package hudson.plugin.versioncolumn;
 
 import com.google.common.annotations.VisibleForTesting;
 import hudson.util.VersionNumber;
+import io.jenkins.lib.versionnumber.JavaSpecificationVersion;
 import jenkins.model.Jenkins;
 import org.apache.commons.codec.binary.Hex;
 
@@ -38,7 +39,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
-import static hudson.plugin.versioncolumn.JVMConstants.JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING;
 
 /**
  * Responsible for master and agent jvm versions comparisons, and notions of "compatibility".
@@ -90,17 +90,25 @@ class JVMVersionComparator {
     }
 
     private boolean isAgentRuntimeCompatibleWithJenkinsBytecodeLevel(String agentMajorMinorVersion) {
-        Integer masterBytecodeLevel = getMasterBytecodeMajorVersionNumber();
-        Integer agentVMMaxBytecodeLevel = JDK_VERSION_NUMBER_TO_BYTECODE_LEVEL_MAPPING.get(agentMajorMinorVersion);
-        if (agentVMMaxBytecodeLevel != null) {
-            return masterBytecodeLevel <= agentVMMaxBytecodeLevel;
+        int masterBytecodeLevel = getMasterBytecodeMajorVersionNumber();
+        int releaseVersion;
+        if (agentMajorMinorVersion.startsWith("1.")) {
+            releaseVersion = Integer.parseInt(agentMajorMinorVersion.split("\\.")[1]);
         } else {
+            releaseVersion = Integer.parseInt(agentMajorMinorVersion.split("\\.")[0]);
+        }
+        try {
+            int agentVMMaxBytecodeLevel = JavaSpecificationVersion.fromReleaseVersion(releaseVersion).toClassVersion();
+            return masterBytecodeLevel <= agentVMMaxBytecodeLevel;
+        } catch (NullPointerException e) {
             LOGGER.log(Level.WARNING, Messages.JVMVersionMonitor_UnrecognizedAgentJVM(agentMajorMinorVersion));
             /*
              * Even if the version might be compatible, we still mark the node as incompatible to prevent potential issues.
              */
             return false;
+
         }
+
     }
 
     public boolean isCompatible() {
@@ -164,13 +172,13 @@ class JVMVersionComparator {
             // So Jenkins started with Java 1.4 (or less?) reading the *old* changelog (like around ~1.100)
             // but well not sure I'll bother
             if (jenkinsVersion.isOlderThan(new VersionNumber("1.520"))) {
-                return JVMConstants.JAVA_5;
+                return JavaSpecificationVersion.JAVA_5.toClassVersion();
             } else if (jenkinsVersion.isOlderThan(new VersionNumber("1.612"))) {
-                return JVMConstants.JAVA_6;
+                return JavaSpecificationVersion.JAVA_6.toClassVersion();
             } else if (jenkinsVersion.isOlderThan(new VersionNumber("2.54"))) {
-                return JVMConstants.JAVA_7;
+                return JavaSpecificationVersion.JAVA_7.toClassVersion();
             } else if (jenkinsVersion.isNewerThan(new VersionNumber("2.54"))) {
-                return JVMConstants.JAVA_8;
+                return JavaSpecificationVersion.JAVA_8.toClassVersion();
             }
 
             throw new IllegalStateException("Jenkins Bytecode Level could not be inferred");
