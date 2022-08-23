@@ -137,7 +137,7 @@ class JVMVersionComparator {
         public int get() {
 
             final URL location = Jenkins.class.getProtectionDomain().getCodeSource().getLocation();
-            try (JarFile jarFile = new JarFile(location.getFile())) {
+            try (JarFile jarFile = new JarFile(location.toURI().getPath())) {
                 final ZipEntry jenkinsClassEntry = jarFile.getEntry("jenkins/model/Jenkins.class");
 
                 final InputStream inputStream = jarFile.getInputStream(jenkinsClassEntry);
