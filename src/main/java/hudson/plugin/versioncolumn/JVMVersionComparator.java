@@ -42,7 +42,7 @@ import java.util.zip.ZipEntry;
 
 
 /**
- * Responsible for master and agent jvm versions comparisons, and notions of "compatibility".
+ * Responsible for controller and agent jvm versions comparisons, and notions of "compatibility".
  * <p>For instance, the default behaviour is to consider 1.8.0 compatible with 1.8.3-whatever and so on.
  * Only considering <em>major.minor</em> part, that is</p>
  */
