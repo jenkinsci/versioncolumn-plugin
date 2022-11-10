@@ -1,5 +1,6 @@
 package hudson.plugin.versioncolumn;
 
+import io.jenkins.lib.versionnumber.JavaSpecificationVersion;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -22,6 +23,7 @@ public class JVMVersionComparatorTest {
     private static Object[] parametersForCompatible() {
         return new Object[][]{
                 {"1.8.0", "1.8.0", true},
+                {"11.0.11", "11.0.11", true},
                 {"1.8.0", "1.8.0", false},
                 {"1.6.0", "1.6.0", true},
                 {"1.6.0", "1.6.1_ublah_whatever", false},
@@ -33,6 +35,8 @@ public class JVMVersionComparatorTest {
         return new Object[][]{
                 {"1.5.0", "1.5.1", true},
                 {"1.7.0", "1.6.0", true},
+                {"1.7.0", "11.0.2", true},
+                {"17.0.3", "11.0.2", true},
                 {"1.8.0_66", "1.8.0_110", true},
                 {"1.6.0", "1.6.1", true},
         };
@@ -62,17 +66,19 @@ public class JVMVersionComparatorTest {
 
     private static Object[] parametersForCompatibleBytecodeLevel() {
         return new Object[][]{
-                {"1.8.0", JVMConstants.JAVA_8},
-                {"1.8.0", JVMConstants.JAVA_7},
-                {"1.8.0", JVMConstants.JAVA_6},
+                {"1.8.0", JavaSpecificationVersion.JAVA_8.toClassVersion()},
+                {"1.8.0", JavaSpecificationVersion.JAVA_7.toClassVersion()},
+                {"1.8.0", JavaSpecificationVersion.JAVA_6.toClassVersion()},
+                {"11.0.1", JavaSpecificationVersion.JAVA_11.toClassVersion()},
         };
     }
 
     private static Object[] parametersForIncompatibleBytecodeLevel() {
         return new Object[][]{
-                {"1.7.0", JVMConstants.JAVA_8},
-                {"1.6.1", JVMConstants.JAVA_7},
-                {"1.5.3", JVMConstants.JAVA_6},
+                {"1.7.0", JavaSpecificationVersion.JAVA_8.toClassVersion()},
+                {"1.6.1", JavaSpecificationVersion.JAVA_7.toClassVersion()},
+                {"1.5.3", JavaSpecificationVersion.JAVA_6.toClassVersion()},
+                {"11.0.3", JavaSpecificationVersion.JAVA_12.toClassVersion()},
         };
     }
 
