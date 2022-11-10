@@ -29,7 +29,7 @@ import io.jenkins.lib.versionnumber.JavaSpecificationVersion;
 import jenkins.model.Jenkins;
 import org.apache.commons.codec.binary.Hex;
 
-import javax.annotation.Nonnull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.JarFile;
@@ -69,7 +69,7 @@ class JVMVersionComparator {
         }
     }
 
-    @Nonnull
+    @NonNull
     @VisibleForTesting
     static String computeMajorMinor(String version) {
         final Matcher matcher = MAJOR_MINOR_PATTERN.matcher(version);
