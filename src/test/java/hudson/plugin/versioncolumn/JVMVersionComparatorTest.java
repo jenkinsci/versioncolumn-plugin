@@ -87,34 +87,34 @@ public class JVMVersionComparatorTest {
     @MethodSource("parametersForCompatibleBytecodeLevel")
     public void compatibleBytecodeLevel(String agentVMVersion, final int masterBytecodeMajorVersion) {
         assertTrue(new JVMVersionComparator("whatever", agentVMVersion,
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                new JVMVersionComparator.MasterBytecodeMajorVersionNumberGetter() {
-                    @Override
-                    public int get() {
-                        return masterBytecodeMajorVersion;
-                    }
-                }).isCompatible());
+                                            JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
+                                            new JVMVersionComparator.MasterBytecodeMajorVersionNumberGetter() {
+                                                @Override
+                                                public int get() {
+                                                    return masterBytecodeMajorVersion;
+                                                }
+                                            }).isCompatible());
     }
 
     @ParameterizedTest
     @MethodSource("parametersForIncompatibleBytecodeLevel")
     public void incompatibleBytecodeLevel(String agentVMVersion, final int masterBytecodeMajorVersion) {
         assertTrue(new JVMVersionComparator("whatever", agentVMVersion,
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                new JVMVersionComparator.MasterBytecodeMajorVersionNumberGetter() {
-                    @Override
-                    public int get() {
-                        return masterBytecodeMajorVersion;
-                    }
-                }).isNotCompatible());
+                                            JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
+                                            new JVMVersionComparator.MasterBytecodeMajorVersionNumberGetter() {
+                                                @Override
+                                                public int get() {
+                                                    return masterBytecodeMajorVersion;
+                                                }
+                                            }).isNotCompatible());
     }
 
     @Issue("JENKINS-53445")
     @Test
     public void shouldNotThrowNPEWhenJVMVersionIsNotRecognized() {
         JVMVersionComparator jvmVersionComparator =
-                new JVMVersionComparator("99.9", "99.9",
-                        JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
+              new JVMVersionComparator("99.9", "99.9",
+                    JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
         assertNotNull(jvmVersionComparator);
         assertFalse(jvmVersionComparator.isCompatible());
     }
