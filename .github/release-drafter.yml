@@ -1,2 +1,2 @@
 _extends: .github
-tag-template: versioncolumn-$NEXT_PATCH_VERSION
+tag-template: versioncolumn-$NEXT_MINOR_VERSION
