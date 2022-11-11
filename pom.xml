@@ -11,7 +11,7 @@
 
     <artifactId>versioncolumn</artifactId>
     <packaging>hpi</packaging>
-    <version>${revision}${changelist}</version>
+    <version>${changelist}</version>
     <name>Jenkins Versions Node Monitors plugin</name>
     <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
@@ -49,8 +49,7 @@
   </scm>
 
     <properties>
-        <revision>2.3</revision>
-        <changelist>-SNAPSHOT</changelist>
+        <changelist>999999-SNAPSHOT</changelist>
         <jenkins.version>2.361.1</jenkins.version>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     </properties>
