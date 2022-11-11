@@ -30,22 +30,16 @@ import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
 import hudson.slaves.OfflineCause;
 import hudson.util.ListBoxModel;
-import jenkins.model.Jenkins;
 import jenkins.security.MasterToSlaveCallable;
-import org.apache.commons.codec.binary.Hex;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.jar.JarFile;
+import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
 
 public class JVMVersionMonitor extends NodeMonitor {
 
-    public static final String JAVA_VERSION = "java.version";
-    private static final String MASTER_VERSION = System.getProperty("java.version");
+    private static final Runtime.Version CONTROLLER_VERSION = Runtime.version();
     private static final Logger LOGGER = Logger.getLogger(JVMVersionMonitor.class.getName());
 
     private JVMVersionComparator.ComparisonMode comparisonMode = JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE;
@@ -68,16 +62,23 @@ public class JVMVersionMonitor extends NodeMonitor {
     @Override
     public Object data(Computer c) {
 
-        String agentVersion = (String) super.data(c);
-        if (agentVersion == null) {
+        String agentVersionStr = (String) super.data(c);
+        if (agentVersionStr == null) {
+            return "N/A";
+        }
+        Runtime.Version agentVersion;
+        try {
+            agentVersion = Runtime.Version.parse(agentVersionStr);
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.WARNING, "Failed to parse agent version: " + agentVersionStr, e);
             return "N/A";
         }
         final JVMVersionComparator jvmVersionComparator =
-                new JVMVersionComparator(MASTER_VERSION, agentVersion, comparisonMode);
+                new JVMVersionComparator(CONTROLLER_VERSION, agentVersion, comparisonMode);
 
         if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
             if (disconnect) {
-                LOGGER.warning(Messages.JVMVersionMonitor_MarkedOffline(c.getName(), MASTER_VERSION, agentVersion));
+                LOGGER.warning(Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersion));
                 ((JvmVersionDescriptor) getDescriptor()).markOffline(c, OfflineCause.create(
                         Messages._JVMVersionMonitor_OfflineCause()));
             } else {
@@ -120,8 +121,8 @@ public class JVMVersionMonitor extends NodeMonitor {
 
     private static class JavaVersion extends MasterToSlaveCallable<String, IOException> {
         @Override
-        public String call() throws IOException {
-            return System.getProperty(JAVA_VERSION);
+        public String call() {
+            return Runtime.version().toString();
         }
     }
 }

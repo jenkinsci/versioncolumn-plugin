@@ -1,75 +1,216 @@
 <div>
-    <p>The goal is to help making sure JVM versions in use on Controller and Agents are <em>reasonably</em> aligned
-        to avoid <code>ClassFormatError</code> and other cool errors.</p>
-    <style>
-        table#jvmversion, table#jvmversion tr,table#jvmversion th,table#jvmversion td {
-            border: 1px solid;
-            border-collapse: collapse;
-        }
+  <p>
+    The goal is to help making sure JVM versions in use on the controller and agents are <em>reasonably</em> aligned to avoid <code>UnsupportedClassVersionError</code> and other low-level Java errors.
+  </p>
+  <style type="text/css">
+    dl#jvmversion {
+      padding: 0;
+    }
 
-    </style>
-    <table id="jvmversion">
-        <thead>
-        <tr>
-            <th>Description</th>
-            <th>Examples</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td><p>Agent runtime must be greater or equal than the Controller bytecode level (strongly recommended minimum)</p></td>
-            <td>
-                <div>
-                    <div>
-                        <ul>
-                            <li>
-                                <p>an agent running Java 6 or less will be disconnected from 2.32.3 Controller</p>
-                            </li>
-                            <li>
-                                <p>an agent running Java 6 will not be disconnected from a 1.609 Controller</p>
-                            </li>
-                            <li>
-                                <p>an agent running Java 7 will be disconnected from a 2.54 Controller</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td><p>Agent major.minor must be equal to Controller major.minor JVM version (paranoid version)</p></td>
-            <td>
-                <div>
-                    <div>
-                        <ul>
-                            <li>
-                                <p>an agent running 1.7 or less will be disconnected from a Controller running
-                                    1.8.112</p>
-                            </li>
-                            <li>
-                                <p>an agent running 1.8.66 will not be disconnected from a Controller running
-                                    1.8.112</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td><p>Agent JVM version must be exactly the same as Controller JVM version (paranoid++ version)</p></td>
-            <td>
-                <div>
-                    <div>
-                        <ul>
-                            <li>
-                                <p>an agent running 1.8.66 will be disconnected from a Controller running 1.8.112</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    dl#jvmversion dt {
+      padding: 0;
+      margin-top: 1em;
+      margin-bottom: 0.3em;
+      font-weight: normal;
+    }
 
+    dl#jvmversion dd {
+      padding: 0;
+      margin-bottom: 1em;
+    }
+  </style>
+  <dl id="jvmversion">
+    <dt>
+      <p>
+        Agent must run a JVM whose <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html">feature-release counter</a> (e.g., 11 or 17) is <strong>greater than or equal to</strong> that of the controller (strongly recommended minimum)
+      </p>
+    </dt>
+    <dd>
+      <ul>
+        <li>
+          <p>
+            Java 11.0.16 agent will not be disconnected from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent will not be disconnected from a Java 11.0.16 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent will not be disconnected from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent will not be disconnected from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent <strong>will be disconnected</strong> from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent will not be disconnected from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent will not be disconnected from a Java 17.0.4.1 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4.1 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.5+8 agent will not be disconnected from a Java 17.0.5+7 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.5+7 agent will not be disconnected from a Java 17.0.5+8 controller
+          </p>
+        </li>
+      </ul>
+    </dd>
+    <dt>
+      <p>
+        Agent must run a JVM whose <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html">version number</a> &#8212; including feature-release counter, interim-release counter, update-release counter, and patch-release counter (e.g., 11.0.17 or 17.0.4.1) but _not_ including pre-release and build information (e.g., 11.0.17+8, 11.0.17+8-post-Ubuntu-1ubuntu222.04,19+36, or 20-ea+20-1466) &#8212; is <strong>greater than or equal to</strong> that of the controller (paranoid version)
+      </p>
+    </dt>
+    <dd>
+      <ul>
+        <li>
+          <p>
+            Java 11.0.16 agent <strong>will be disconnected</strong> from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent will not be disconnected from a Java 11.0.16 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent will not be disconnected from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent will not be disconnected from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent <strong>will be disconnected</strong> from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent will not be disconnected from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent <strong>will be disconnected</strong> from a Java 17.0.4.1 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4.1 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.5+8 agent will not be disconnected from a Java 17.0.5+7 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.5+7 agent will not be disconnected from a Java 17.0.5+8 controller
+          </p>
+        </li>
+      </ul>
+    </dd>
+    <dt>
+      <p>
+        Agent must run a JVM whose <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html">version number</a> &#8212; including feature-release counter, interim-release counter, update-release counter, and patch-release counter (e.g., 11.0.17 or 17.0.4.1) but _not_ including pre-release and build information (e.g., 11.0.17+8, 11.0.17+8-post-Ubuntu-1ubuntu222.04,19+36, or 20-ea+20-1466) &#8212; is <strong>equal to</strong> that of the controller (paranoid++ version)
+      </p>
+    </dt>
+    <dd>
+      <ul>
+        <li>
+          <p>
+            Java 11.0.16 agent <strong>will be disconnected</strong> from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent <strong>will be disconnected</strong> from a Java 11.0.16 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent will not be disconnected from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent <strong>will be disconnected</strong> from a Java 11.0.17 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 11.0.17 agent <strong>will be disconnected</strong> from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent will not be disconnected from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4 agent <strong>will be disconnected</strong> from a Java 17.0.4.1 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4.1 agent <strong>will be disconnected</strong> from a Java 17.0.4 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4.1 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.5+8 agent will not be disconnected from a Java 17.0.5+7 controller
+          </p>
+        </li>
+        <li>
+          <p>
+            Java 17.0.5+7 agent will not be disconnected from a Java 17.0.5+8 controller
+          </p>
+        </li>
+      </ul>
+    </dd>
+  </dl>
 </div>
