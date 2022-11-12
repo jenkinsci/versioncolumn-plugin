@@ -25,13 +25,21 @@
 
     <developers>
         <developer>
+            <id>markewaite</id>
+            <name>Mark Waite</name>
+            <email>mark.earl.waite@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
             <id>batmat</id>
             <name>Baptiste Mathus</name>
             <email>batmat@batmat.net</email>
             <roles>
-                <role>developer</role>
+                <role>emeritus</role>
             </roles>
-		</developer>
+	</developer>
         <developer>
             <id>ssogabe</id>
             <name>Seiji Sogabe</name>
