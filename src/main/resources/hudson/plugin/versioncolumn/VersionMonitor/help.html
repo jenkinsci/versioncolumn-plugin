@@ -1,0 +1,10 @@
+<div>
+  When enabled, this monitor will disconnect agents that are not running the <strong>same version</strong> of remoting as the version on the Jenkins controller.
+  This monitor does not provide any concept of compatibility between remoting versions.
+  <p>
+  <a href="https://github.com/jenkinsci/remoting/#readme">Jenkins remoting</a> implements the communication layer between Jenkins controllers and Jenkins agents.
+  Recent remoting versions are generally compatible with one another.
+  This check enforces a more strict requirement that the remoting version on the agent must exactly match the remoting version on the controller.
+  The check can help an administrator quickly identify outdated remoting versions.
+  </p>
+</div>
