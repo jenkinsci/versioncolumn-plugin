@@ -78,7 +78,7 @@ public class JVMVersionMonitor extends NodeMonitor {
 
         if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
             if (disconnect) {
-                LOGGER.warning(Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersion));
+                LOGGER.warning(Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersionStr));
                 ((JvmVersionDescriptor) getDescriptor()).markOffline(c, OfflineCause.create(
                         Messages._JVMVersionMonitor_OfflineCause()));
             } else {
@@ -86,7 +86,7 @@ public class JVMVersionMonitor extends NodeMonitor {
                         "Version incompatibility detected, but keeping the agent '" + c.getName() + "' online per the node monitor configuration");
             }
         }
-        return agentVersion;
+        return agentVersionStr;
     }
 
     public JVMVersionComparator.ComparisonMode getComparisonMode() {
