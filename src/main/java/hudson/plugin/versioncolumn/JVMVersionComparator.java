@@ -32,13 +32,17 @@ class JVMVersionComparator {
 
     private boolean compatible;
 
-    JVMVersionComparator(Runtime.Version controllerVersion, Runtime.Version agentVersion, ComparisonMode comparisonMode) {
+    JVMVersionComparator(
+            Runtime.Version controllerVersion,
+            Runtime.Version agentVersion,
+            ComparisonMode comparisonMode) {
         if (ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE == comparisonMode) {
             compatible = agentVersion.feature() >= controllerVersion.feature();
         } else if (ComparisonMode.EXACT_MATCH == comparisonMode) {
             compatible = controllerVersion.version().equals(agentVersion.version());
         } else if (ComparisonMode.MAJOR_MINOR_MATCH == comparisonMode) {
-            compatible = compareVersionList(agentVersion.version(), controllerVersion.version()) >= 0;
+            compatible =
+                    compareVersionList(agentVersion.version(), controllerVersion.version()) >= 0;
         }
     }
 
@@ -73,7 +77,8 @@ class JVMVersionComparator {
     }
 
     public enum ComparisonMode {
-        RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE(Messages.JVMVersionMonitor_RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE()),
+        RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE(
+                Messages.JVMVersionMonitor_RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE()),
         MAJOR_MINOR_MATCH(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH()),
         EXACT_MATCH(Messages.JVMVersionMonitor_EXACT_MATCH());
 

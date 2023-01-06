@@ -1,5 +1,9 @@
 package hudson.plugin.versioncolumn;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.xml.HasXPath.hasXPath;
+
 import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import hudson.model.User;
 import hudson.security.HudsonPrivateSecurityRealm;
@@ -10,13 +14,8 @@ import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.JenkinsRule.WebClient;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.xml.HasXPath.hasXPath;
-
 public class RESTAPITest {
-    @Rule
-    public JenkinsRule rule = new JenkinsRule();
+    @Rule public JenkinsRule rule = new JenkinsRule();
 
     private final String USER_NAME = "user-for-RESTAPITest";
 
@@ -25,7 +24,8 @@ public class RESTAPITest {
     @Before
     public void setup() throws Exception {
         final String PASSWORD = "password-for-RESTAPITest";
-        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
+        HudsonPrivateSecurityRealm securityRealm =
+                new HudsonPrivateSecurityRealm(false, false, null);
         rule.jenkins.setSecurityRealm(securityRealm);
 
         User user = securityRealm.createAccount(USER_NAME, PASSWORD);
@@ -34,7 +34,7 @@ public class RESTAPITest {
 
         webClient = rule.createWebClient();
         webClient.login(USER_NAME, PASSWORD);
-   }
+    }
 
     @Test
     public void securedAPILoginTest() throws Exception {
