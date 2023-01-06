@@ -1,98 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>4.53</version>
-        <relativePath />
-    </parent>
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>4.53</version>
+    <relativePath />
+  </parent>
 
-    <artifactId>versioncolumn</artifactId>
-    <packaging>hpi</packaging>
-    <version>${changelist}</version>
-    <name>Jenkins Versions Node Monitors plugin</name>
-    <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
-    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+  <artifactId>versioncolumn</artifactId>
+  <version>${changelist}</version>
+  <packaging>hpi</packaging>
+  <name>Jenkins Versions Node Monitors plugin</name>
+  <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
+  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>https://opensource.org/licenses/MIT</url>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
 
-    <developers>
-        <developer>
-            <id>markewaite</id>
-            <name>Mark Waite</name>
-            <email>mark.earl.waite@gmail.com</email>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>batmat</id>
-            <name>Baptiste Mathus</name>
-            <email>batmat@batmat.net</email>
-            <roles>
-                <role>emeritus</role>
-            </roles>
-	</developer>
-        <developer>
-            <id>ssogabe</id>
-            <name>Seiji Sogabe</name>
-            <roles>
-                <role>emeritus</role>
-            </roles>
-        </developer>
-    </developers>
+  <developers>
+    <developer>
+      <id>markewaite</id>
+      <name>Mark Waite</name>
+      <email>mark.earl.waite@gmail.com</email>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>batmat</id>
+      <name>Baptiste Mathus</name>
+      <email>batmat@batmat.net</email>
+      <roles>
+        <role>emeritus</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>ssogabe</id>
+      <name>Seiji Sogabe</name>
+      <roles>
+        <role>emeritus</role>
+      </roles>
+    </developer>
+  </developers>
 
-    <scm>
-        <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
-        <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
-        <url>https://github.com/${gitHubRepo}</url>
-      <tag>${scmTag}</tag>
+  <scm>
+    <connection>scm:git:https://github.com/${gitHubRepo}.git</connection>
+    <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
+    <tag>${scmTag}</tag>
+    <url>https://github.com/${gitHubRepo}</url>
   </scm>
 
-    <properties>
-        <changelist>999999-SNAPSHOT</changelist>
-        <jenkins.version>2.361.4</jenkins.version>
-        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
-    </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.361.x</artifactId>
-                <version>1763.v092b_8980a_f5e</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
+  <properties>
+    <changelist>999999-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+    <jenkins.version>2.361.4</jenkins.version>
+  </properties>
+  <dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.jenkins-ci.modules</groupId>
-            <artifactId>instance-identity</artifactId>
-            <version>142.v04572ca_5b_265</version>
-            <scope>test</scope>
-        </dependency>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.361.x</artifactId>
+        <version>1763.v092b_8980a_f5e</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
+  </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </repository>
-    </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.jenkins-ci.modules</groupId>
+      <artifactId>instance-identity</artifactId>
+      <version>142.v04572ca_5b_265</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>2.29.0</version>
+          <configuration>
+            <!-- define a language-specific format -->
+            <java>
+              <!-- no need to specify files, inferred automatically -->
+              <!-- apply a specific flavor of google-java-format -->
+              <googleJavaFormat>
+                <version>1.15.0</version>
+                <style>AOSP</style>
+              </googleJavaFormat>
+              <endWithNewline />
+              <removeUnusedImports />
+            </java>
+            <pom>
+              <indent>
+                <spaces>true</spaces>
+              </indent>
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+              <sortPom>
+                <expandEmptyElements>false</expandEmptyElements>
+                <sortDependencies>groupId,artifactId</sortDependencies>
+                <sortDependencyExclusions>groupId,artifactId</sortDependencyExclusions>
+                <sortExecutions>true</sortExecutions>
+                <sortModules>true</sortModules>
+                <sortPlugins>groupId,artifactId</sortPlugins>
+                <sortProperties>true</sortProperties>
+                <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
+              </sortPom>
+            </pom>
+          </configuration>
+          <executions>
+            <execution>
+              <!-- Runs in verify phase by default -->
+              <goals>
+                <!-- Can be disabled using -Dspotless.check.skip -->
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

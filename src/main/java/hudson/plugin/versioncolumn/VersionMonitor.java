@@ -1,18 +1,18 @@
 /*
  * The MIT License
- * 
+ *
  * Copyright (c) 2011, Seiji Sogabe
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,9 +30,9 @@ import hudson.node_monitors.AbstractNodeMonitorDescriptor;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Launcher;
 import hudson.slaves.OfflineCause;
-import jenkins.security.MasterToSlaveCallable;
 import java.io.IOException;
 import java.util.logging.Logger;
+import jenkins.security.MasterToSlaveCallable;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -52,28 +52,32 @@ public class VersionMonitor extends NodeMonitor {
     }
 
     @Extension
-    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR = new AbstractNodeMonitorDescriptor<String>() {
+    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR =
+            new AbstractNodeMonitorDescriptor<String>() {
 
-        protected String monitor(Computer c) throws IOException, InterruptedException {
-            String version = c.getChannel().call(new SlaveVersion());
-            if (version == null || !version.equals(masterVersion)) {
-                if (!isIgnored()) {
-                    markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
-                    LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                protected String monitor(Computer c) throws IOException, InterruptedException {
+                    String version = c.getChannel().call(new SlaveVersion());
+                    if (version == null || !version.equals(masterVersion)) {
+                        if (!isIgnored()) {
+                            markOffline(
+                                    c,
+                                    OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
+                            LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                        }
+                    }
+                    return version;
                 }
-            }
-            return version;
-        }
 
-        public String getDisplayName() {
-            return Messages.VersionMonitor_DisplayName();
-        }
+                public String getDisplayName() {
+                    return Messages.VersionMonitor_DisplayName();
+                }
 
-        @Override
-        public NodeMonitor newInstance(StaplerRequest req, JSONObject formData) throws FormException {
-            return new VersionMonitor();
-        }
-    };
+                @Override
+                public NodeMonitor newInstance(StaplerRequest req, JSONObject formData)
+                        throws FormException {
+                    return new VersionMonitor();
+                }
+            };
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 
@@ -88,6 +92,6 @@ public class VersionMonitor extends NodeMonitor {
             }
         }
     }
-    
+
     private static final Logger LOGGER = Logger.getLogger(VersionMonitor.class.getName());
 }

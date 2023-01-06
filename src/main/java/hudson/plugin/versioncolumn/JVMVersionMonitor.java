@@ -1,18 +1,18 @@
 /*
  * The MIT License
- * 
+ *
  * Copyright (c) 2017-, Baptiste Mathus
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,29 +30,29 @@ import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
 import hudson.slaves.OfflineCause;
 import hudson.util.ListBoxModel;
-import jenkins.security.MasterToSlaveCallable;
-import org.kohsuke.stapler.DataBoundConstructor;
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jenkins.security.MasterToSlaveCallable;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 public class JVMVersionMonitor extends NodeMonitor {
 
     private static final Runtime.Version CONTROLLER_VERSION = Runtime.version();
     private static final Logger LOGGER = Logger.getLogger(JVMVersionMonitor.class.getName());
 
-    private JVMVersionComparator.ComparisonMode comparisonMode = JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE;
+    private JVMVersionComparator.ComparisonMode comparisonMode =
+            JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE;
     private boolean disconnect = true;
 
     @DataBoundConstructor
-    public JVMVersionMonitor(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
+    public JVMVersionMonitor(
+            JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
         this.comparisonMode = comparisonMode;
         this.disconnect = disconnect;
     }
 
-    public JVMVersionMonitor() {
-    }
+    public JVMVersionMonitor() {}
 
     @SuppressWarnings("unused") // jelly
     public boolean isDisconnect() {
@@ -78,12 +78,17 @@ public class JVMVersionMonitor extends NodeMonitor {
 
         if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
             if (disconnect) {
-                LOGGER.warning(Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersionStr));
-                ((JvmVersionDescriptor) getDescriptor()).markOffline(c, OfflineCause.create(
-                        Messages._JVMVersionMonitor_OfflineCause()));
+                LOGGER.warning(
+                        Messages.JVMVersionMonitor_MarkedOffline(
+                                c.getName(), CONTROLLER_VERSION, agentVersionStr));
+                ((JvmVersionDescriptor) getDescriptor())
+                        .markOffline(
+                                c, OfflineCause.create(Messages._JVMVersionMonitor_OfflineCause()));
             } else {
                 LOGGER.finer(
-                        "Version incompatibility detected, but keeping the agent '" + c.getName() + "' online per the node monitor configuration");
+                        "Version incompatibility detected, but keeping the agent '"
+                                + c.getName()
+                                + "' online per the node monitor configuration");
             }
         }
         return agentVersionStr;
@@ -112,7 +117,8 @@ public class JVMVersionMonitor extends NodeMonitor {
 
         public ListBoxModel doFillComparisonModeItems() {
             ListBoxModel items = new ListBoxModel();
-            for (JVMVersionComparator.ComparisonMode goal : JVMVersionComparator.ComparisonMode.values()) {
+            for (JVMVersionComparator.ComparisonMode goal :
+                    JVMVersionComparator.ComparisonMode.values()) {
                 items.add(goal.getDescription(), goal.name());
             }
             return items;
