@@ -23,6 +23,7 @@
  */
 package hudson.plugin.versioncolumn;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.model.Computer;
 import hudson.node_monitors.AbstractAsyncNodeMonitorDescriptor;
@@ -101,6 +102,7 @@ public class JVMVersionMonitor extends NodeMonitor {
     @Extension
     public static class JvmVersionDescriptor extends AbstractAsyncNodeMonitorDescriptor<String> {
 
+        @NonNull
         public String getDisplayName() {
             return Messages.JVMVersionMonitor_DisplayName();
         }
