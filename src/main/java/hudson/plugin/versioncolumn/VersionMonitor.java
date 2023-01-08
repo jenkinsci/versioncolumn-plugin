@@ -23,6 +23,7 @@
  */
 package hudson.plugin.versioncolumn;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
@@ -53,7 +54,7 @@ public class VersionMonitor extends NodeMonitor {
 
     @Extension
     public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR =
-            new AbstractNodeMonitorDescriptor<String>() {
+            new AbstractNodeMonitorDescriptor<>() {
 
                 protected String monitor(Computer c) throws IOException, InterruptedException {
                     String version = c.getChannel().call(new SlaveVersion());
@@ -68,12 +69,13 @@ public class VersionMonitor extends NodeMonitor {
                     return version;
                 }
 
+                @NonNull
                 public String getDisplayName() {
                     return Messages.VersionMonitor_DisplayName();
                 }
 
                 @Override
-                public NodeMonitor newInstance(StaplerRequest req, JSONObject formData)
+                public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData)
                         throws FormException {
                     return new VersionMonitor();
                 }
