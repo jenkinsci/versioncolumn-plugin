@@ -145,6 +145,13 @@ public class JVMVersionComparatorTest {
         };
     }
 
+    @Test
+    public void testGetDescription(){
+        JVMVersionComparator.ComparisonMode object = JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
+        assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(),
+                object.getDescription());
+    }
+
     @ParameterizedTest
     @MethodSource("parameters")
     public void smokes(
