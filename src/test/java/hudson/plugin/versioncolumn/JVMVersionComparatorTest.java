@@ -2,6 +2,7 @@ package hudson.plugin.versioncolumn;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -158,5 +159,20 @@ public class JVMVersionComparatorTest {
                                 Runtime.Version.parse(agentVersion),
                                 comparisonMode)
                         .isCompatible());
+    }
+    @ParameterizedTest
+    @MethodSource("parameters")
+    public void notSmokes(
+            String agentVersion,
+            String controllerVersion,
+            JVMVersionComparator.ComparisonMode comparisonMode,
+            boolean isCompatible) {
+        assertEquals(
+                !isCompatible,
+                new JVMVersionComparator(
+                        Runtime.Version.parse(controllerVersion),
+                        Runtime.Version.parse(agentVersion),
+                        comparisonMode)
+                        .isNotCompatible());
     }
 }
