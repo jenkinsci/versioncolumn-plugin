@@ -146,10 +146,10 @@ public class JVMVersionComparatorTest {
     }
 
     @Test
-    public void testGetDescription(){
-        JVMVersionComparator.ComparisonMode object = JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
-        assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(),
-                object.getDescription());
+    public void testGetDescription() {
+        JVMVersionComparator.ComparisonMode object =
+                JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
+        assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(), object.getDescription());
     }
 
     @ParameterizedTest
@@ -167,6 +167,7 @@ public class JVMVersionComparatorTest {
                                 comparisonMode)
                         .isCompatible());
     }
+
     @ParameterizedTest
     @MethodSource("parameters")
     public void notSmokes(
@@ -177,9 +178,9 @@ public class JVMVersionComparatorTest {
         assertEquals(
                 !isCompatible,
                 new JVMVersionComparator(
-                        Runtime.Version.parse(controllerVersion),
-                        Runtime.Version.parse(agentVersion),
-                        comparisonMode)
+                                Runtime.Version.parse(controllerVersion),
+                                Runtime.Version.parse(agentVersion),
+                                comparisonMode)
                         .isNotCompatible());
     }
 }
