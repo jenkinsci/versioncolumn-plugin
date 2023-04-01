@@ -15,7 +15,8 @@ import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.JenkinsRule.WebClient;
 
 public class RESTAPITest {
-    @Rule public JenkinsRule rule = new JenkinsRule();
+    @Rule
+    public JenkinsRule rule = new JenkinsRule();
 
     private final String USER_NAME = "user-for-RESTAPITest";
 
@@ -24,8 +25,7 @@ public class RESTAPITest {
     @Before
     public void setup() throws Exception {
         final String PASSWORD = "password-for-RESTAPITest";
-        HudsonPrivateSecurityRealm securityRealm =
-                new HudsonPrivateSecurityRealm(false, false, null);
+        HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
         rule.jenkins.setSecurityRealm(securityRealm);
 
         User user = securityRealm.createAccount(USER_NAME, PASSWORD);
