@@ -53,38 +53,35 @@ public class VersionMonitor extends NodeMonitor {
     }
 
     @Extension
-    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR =
-            new AbstractNodeMonitorDescriptor<>() {
+    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR = new AbstractNodeMonitorDescriptor<>() {
 
-                protected String monitor(Computer c) throws IOException, InterruptedException {
-                    String version = c.getChannel().call(new SlaveVersion());
-                    if (version == null || !version.equals(masterVersion)) {
-                        if (!isIgnored()) {
-                            markOffline(
-                                    c,
-                                    OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
-                            LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
-                        }
-                    }
-                    return version;
+        protected String monitor(Computer c) throws IOException, InterruptedException {
+            String version = c.getChannel().call(new SlaveVersion());
+            if (version == null || !version.equals(masterVersion)) {
+                if (!isIgnored()) {
+                    markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
+                    LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
                 }
+            }
+            return version;
+        }
 
-                @NonNull
-                public String getDisplayName() {
-                    return Messages.VersionMonitor_DisplayName();
-                }
+        @NonNull
+        public String getDisplayName() {
+            return Messages.VersionMonitor_DisplayName();
+        }
 
-                @Override
-                public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData)
-                        throws FormException {
-                    return new VersionMonitor();
-                }
-            };
+        @Override
+        public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData) throws FormException {
+            return new VersionMonitor();
+        }
+    };
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 
         private static final long serialVersionUID = 1L;
 
+        @Override
         public String call() throws IOException {
             try {
                 return Launcher.VERSION;

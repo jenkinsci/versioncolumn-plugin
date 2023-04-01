@@ -47,8 +47,7 @@ public class JVMVersionMonitor extends NodeMonitor {
     private boolean disconnect = true;
 
     @DataBoundConstructor
-    public JVMVersionMonitor(
-            JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
+    public JVMVersionMonitor(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
         this.comparisonMode = comparisonMode;
         this.disconnect = disconnect;
     }
@@ -80,16 +79,13 @@ public class JVMVersionMonitor extends NodeMonitor {
         if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
             if (disconnect) {
                 LOGGER.warning(
-                        Messages.JVMVersionMonitor_MarkedOffline(
-                                c.getName(), CONTROLLER_VERSION, agentVersionStr));
+                        Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersionStr));
                 ((JvmVersionDescriptor) getDescriptor())
-                        .markOffline(
-                                c, OfflineCause.create(Messages._JVMVersionMonitor_OfflineCause()));
+                        .markOffline(c, OfflineCause.create(Messages._JVMVersionMonitor_OfflineCause()));
             } else {
-                LOGGER.finer(
-                        "Version incompatibility detected, but keeping the agent '"
-                                + c.getName()
-                                + "' online per the node monitor configuration");
+                LOGGER.finer("Version incompatibility detected, but keeping the agent '"
+                        + c.getName()
+                        + "' online per the node monitor configuration");
             }
         }
         return agentVersionStr;
@@ -102,6 +98,7 @@ public class JVMVersionMonitor extends NodeMonitor {
     @Extension
     public static class JvmVersionDescriptor extends AbstractAsyncNodeMonitorDescriptor<String> {
 
+        @Override
         @NonNull
         public String getDisplayName() {
             return Messages.JVMVersionMonitor_DisplayName();
@@ -119,8 +116,7 @@ public class JVMVersionMonitor extends NodeMonitor {
 
         public ListBoxModel doFillComparisonModeItems() {
             ListBoxModel items = new ListBoxModel();
-            for (JVMVersionComparator.ComparisonMode goal :
-                    JVMVersionComparator.ComparisonMode.values()) {
+            for (JVMVersionComparator.ComparisonMode goal : JVMVersionComparator.ComparisonMode.values()) {
                 items.add(goal.getDescription(), goal.name());
             }
             return items;

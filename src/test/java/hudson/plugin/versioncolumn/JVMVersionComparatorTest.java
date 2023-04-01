@@ -29,10 +29,7 @@ public class JVMVersionComparatorTest {
                 true,
             },
             {
-                "17.0.4",
-                "11.0.17",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "17.0.4", "11.0.17", JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
                 "11.0.17",
@@ -41,10 +38,7 @@ public class JVMVersionComparatorTest {
                 false,
             },
             {
-                "17.0.4",
-                "17.0.4",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "17.0.4", "17.0.4", JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
                 "17.0.4",
@@ -147,8 +141,7 @@ public class JVMVersionComparatorTest {
 
     @Test
     public void testGetDescription() {
-        JVMVersionComparator.ComparisonMode object =
-                JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
+        JVMVersionComparator.ComparisonMode object = JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
         assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(), object.getDescription());
     }
 

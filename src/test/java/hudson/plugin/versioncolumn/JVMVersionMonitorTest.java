@@ -32,16 +32,14 @@ class JVMVersionMonitorTest {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void checkDisconnect(
-            JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
+    public void checkDisconnect(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
         JVMVersionMonitor object = new JVMVersionMonitor(comparisonMode, disconnect);
         assertEquals(disconnect, object.isDisconnect());
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void checkComparisonMode(
-            JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
+    public void checkComparisonMode(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
         JVMVersionMonitor object = new JVMVersionMonitor(comparisonMode, disconnect);
         assertEquals(comparisonMode, object.getComparisonMode());
     }
