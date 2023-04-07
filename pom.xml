@@ -14,7 +14,7 @@
   <packaging>hpi</packaging>
   <name>Jenkins Versions Node Monitors plugin</name>
   <description>Provides two new node monitors, one for the Remoting version, and one for the JVM version in use on nodes.</description>
-  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+  <url>https://github.com/${gitHubRepo}</url>
 
   <licenses>
     <license>
