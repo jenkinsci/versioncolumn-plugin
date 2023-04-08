@@ -5,10 +5,10 @@
     false positives.
   -->
   <Match>
-    <Bug pattern="SE_NO_SERIALVERSIONID"/>
+    <Bug pattern="SE_NO_SERIALVERSIONID" />
     <Or>
-      <Class name="hudson.plugin.versioncolumn.JVMVersionMonitor"/>
-      <Class name="hudson.plugin.versioncolumn.JVMVersionMonitor$JavaVersion"/>
+      <Class name="hudson.plugin.versioncolumn.JVMVersionMonitor" />
+      <Class name="hudson.plugin.versioncolumn.JVMVersionMonitor$JavaVersion" />
     </Or>
   </Match>
 
