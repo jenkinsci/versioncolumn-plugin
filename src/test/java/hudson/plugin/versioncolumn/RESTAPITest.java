@@ -4,9 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.xml.HasXPath.hasXPath;
 
-import com.gargoylesoftware.htmlunit.xml.XmlPage;
 import hudson.model.User;
 import hudson.security.HudsonPrivateSecurityRealm;
+import org.htmlunit.xml.XmlPage;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
