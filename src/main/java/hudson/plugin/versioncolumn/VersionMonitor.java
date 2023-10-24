@@ -45,8 +45,7 @@ public class VersionMonitor extends NodeMonitor {
     private static final String masterVersion = Launcher.VERSION;
 
     @DataBoundConstructor
-    public VersionMonitor () {
-    }
+    public VersionMonitor() {}
 
     @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
@@ -66,7 +65,9 @@ public class VersionMonitor extends NodeMonitor {
     @Symbol("remotingVersion")
     public static class DescriptorImpl extends AbstractNodeMonitorDescriptor<String> {
 
-        @SuppressFBWarnings(value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", justification = "for backward compatibility")
+        @SuppressFBWarnings(
+                value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+                justification = "for backward compatibility")
         public DescriptorImpl() {
             DESCRIPTOR = this;
         }
@@ -91,7 +92,7 @@ public class VersionMonitor extends NodeMonitor {
         public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData) throws FormException {
             return new VersionMonitor();
         }
-    };
+    }
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 
