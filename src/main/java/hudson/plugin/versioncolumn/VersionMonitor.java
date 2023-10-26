@@ -24,6 +24,7 @@
 package hudson.plugin.versioncolumn;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
@@ -41,6 +42,23 @@ public class VersionMonitor extends NodeMonitor {
 
     private static final String masterVersion = Launcher.VERSION;
 
+    private Boolean disconnect = true;
+
+    public VersionMonitor() {}
+
+    public VersionMonitor(Boolean disconnect) {
+        this.disconnect = disconnect;
+    }
+
+    protected Object readResolve() {
+
+        // Ensure backward compatibility which disconnect the agent by default
+        if (disconnect == null) {
+            disconnect = true;
+        }
+        return this;
+    }
+
     @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
         if (version == null) {
@@ -52,18 +70,50 @@ public class VersionMonitor extends NodeMonitor {
         return version;
     }
 
-    @Extension
-    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR = new AbstractNodeMonitorDescriptor<>() {
+    @SuppressWarnings("unused") // jelly
+    public boolean isDisconnect() {
+        return disconnect;
+    }
 
-        protected String monitor(Computer c) throws IOException, InterruptedException {
-            String version = c.getChannel().call(new SlaveVersion());
-            if (version == null || !version.equals(masterVersion)) {
-                if (!isIgnored()) {
-                    markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
+    @Override
+    public Object data(Computer c) {
+        String remotingVersion = (String) super.data(c);
+        if (remotingVersion != null && remotingVersion != "N/A" && !remotingVersion.equals(masterVersion)) {
+            if (!isIgnored()) {
+                if (disconnect) {
+                    ((DescriptorImpl) getDescriptor())
+                            .markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
                     LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                } else {
+                    LOGGER.finer("Remoting incompatibility detected, but keeping the agent '"
+                            + c.getName()
+                            + "' online per the node monitor configuration");
                 }
             }
-            return version;
+        }
+        return remotingVersion;
+    }
+
+    @SuppressFBWarnings(value = "MS_PKGPROTECT", justification = "for backward compatibility")
+    public static /*almost final*/ AbstractNodeMonitorDescriptor<String> DESCRIPTOR;
+
+    @Extension
+    public static class DescriptorImpl extends AbstractNodeMonitorDescriptor<String> {
+
+        @SuppressFBWarnings(
+                value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+                justification = "for backward compatibility")
+        public DescriptorImpl() {
+            DESCRIPTOR = this;
+        }
+
+        protected String monitor(Computer c) throws IOException, InterruptedException {
+            return c.getChannel().call(new SlaveVersion());
+        }
+
+        @Override // Just augmenting visibility
+        public boolean markOffline(Computer c, OfflineCause oc) {
+            return super.markOffline(c, oc);
         }
 
         @NonNull
@@ -73,9 +123,9 @@ public class VersionMonitor extends NodeMonitor {
 
         @Override
         public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData) throws FormException {
-            return new VersionMonitor();
+            return new VersionMonitor(formData.getBoolean("disconnect"));
         }
-    };
+    }
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 

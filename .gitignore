@@ -2,6 +2,7 @@ target
 .classpath
 .settings
 .project
+.vscode
 *.iml
 *.ipr
 *.iws
