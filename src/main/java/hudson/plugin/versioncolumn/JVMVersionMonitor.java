@@ -25,6 +25,7 @@ package hudson.plugin.versioncolumn;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
+import hudson.Util;
 import hudson.model.Computer;
 import hudson.node_monitors.AbstractAsyncNodeMonitorDescriptor;
 import hudson.node_monitors.NodeMonitor;
@@ -57,6 +58,14 @@ public class JVMVersionMonitor extends NodeMonitor {
     @SuppressWarnings("unused") // jelly
     public boolean isDisconnect() {
         return disconnect;
+    }
+
+    @SuppressWarnings("unused") // jelly
+    public String toHtml(String version) {
+        if (!version.equals("N/A") && !version.equals(CONTROLLER_VERSION.toString())) {
+            return Util.wrapToErrorSpan(version);
+        }
+        return version;
     }
 
     @Override
