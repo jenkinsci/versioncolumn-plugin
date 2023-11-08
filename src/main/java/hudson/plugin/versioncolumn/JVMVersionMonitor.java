@@ -62,7 +62,12 @@ public class JVMVersionMonitor extends NodeMonitor {
 
     @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
-        if (!version.equals("N/A") && !version.equals(CONTROLLER_VERSION.toString())) {
+        if (version == null || version.equals("N/A")) {
+            return "N/A";
+        }
+        final JVMVersionComparator jvmVersionComparator =
+                new JVMVersionComparator(CONTROLLER_VERSION, Runtime.Version.parse(version), comparisonMode);
+        if (jvmVersionComparator.isNotCompatible()) {
             return Util.wrapToErrorSpan(version);
         }
         return version;
