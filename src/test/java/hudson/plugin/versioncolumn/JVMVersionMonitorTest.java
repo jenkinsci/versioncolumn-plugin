@@ -47,7 +47,7 @@ class JVMVersionMonitorTest {
 
     @Test
     public void checkToHtmlRendering() throws Exception {
-        
+
         JVMVersionMonitor object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.EXACT_MATCH, false);
 
         // N/A
@@ -55,23 +55,26 @@ class JVMVersionMonitorTest {
         assertEquals("N/A", object.toHtml("N/A"));
 
         // EXACT_MATCH
-        assertEquals(Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
+        assertEquals(
+                Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
         assertEquals(asError("1.1.1.1+1"), object.toHtml("1.1.1.1+1"));
 
         // RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE
-        object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, false);
-        assertEquals(Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
+        object = new JVMVersionMonitor(
+                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, false);
+        assertEquals(
+                Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
         assertEquals(majorGreater(), object.toHtml(majorGreater()));
         assertEquals(majorVersionMatch(), object.toHtml(majorVersionMatch()));
         assertEquals(asError(majorLower()), object.toHtml(majorLower()));
 
         // MAJOR_MINOR_MATCH
         object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, false);
-        assertEquals(Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
+        assertEquals(
+                Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
         assertEquals(majorGreater(), object.toHtml(majorGreater()));
         assertEquals(majorVersionMatch(), object.toHtml(majorVersionMatch()));
         assertEquals(asError(majorLower()), object.toHtml(majorLower()));
-
     }
 
     private String majorVersionMatch() {
@@ -89,5 +92,4 @@ class JVMVersionMonitorTest {
     private String asError(String version) {
         return "<span class=error style='display:inline-block'>" + version + "</span>";
     }
-
 }
