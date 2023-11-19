@@ -27,16 +27,22 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
+import hudson.model.ComputerSet;
 import hudson.node_monitors.AbstractAsyncNodeMonitorDescriptor;
+import hudson.node_monitors.AbstractDiskSpaceMonitor;
+import hudson.node_monitors.DiskSpaceMonitorDescriptor;
+import hudson.node_monitors.MonitorOfflineCause;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
 import hudson.slaves.OfflineCause;
 import hudson.util.ListBoxModel;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.export.Exported;
 
 public class JVMVersionMonitor extends NodeMonitor {
 
@@ -73,44 +79,63 @@ public class JVMVersionMonitor extends NodeMonitor {
         return version;
     }
 
-    @Override
-    public Object data(Computer c) {
-
-        String agentVersionStr = (String) super.data(c);
-        if (agentVersionStr == null) {
-            return "N/A";
-        }
-        Runtime.Version agentVersion;
-        try {
-            agentVersion = Runtime.Version.parse(agentVersionStr);
-        } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.WARNING, "Failed to parse agent version: " + agentVersionStr, e);
-            return "N/A";
-        }
-        final JVMVersionComparator jvmVersionComparator =
-                new JVMVersionComparator(CONTROLLER_VERSION, agentVersion, comparisonMode);
-
-        if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
-            if (disconnect) {
-                LOGGER.warning(
-                        Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersionStr));
-                ((JvmVersionDescriptor) getDescriptor())
-                        .markOffline(c, OfflineCause.create(Messages._JVMVersionMonitor_OfflineCause()));
-            } else {
-                LOGGER.finer("Version incompatibility detected, but keeping the agent '"
-                        + c.getName()
-                        + "' online per the node monitor configuration");
-            }
-        }
-        return agentVersionStr;
-    }
-
     public JVMVersionComparator.ComparisonMode getComparisonMode() {
         return comparisonMode;
     }
 
     @Extension
     public static class JvmVersionDescriptor extends AbstractAsyncNodeMonitorDescriptor<String> {
+
+        @Override
+        protected Map<Computer, String> monitor() throws InterruptedException {
+            Result<String> base = monitorDetailed();
+            Map<Computer, String> data = base.getMonitoringData();
+            JVMVersionMonitor monitor = (JVMVersionMonitor) ComputerSet.getMonitors().get(this);
+            for (Map.Entry<Computer, String> e : data.entrySet()) {
+                Computer computer = e.getKey();
+                String version = e.getValue();
+                if (base.getSkipped().contains(computer)) {
+                    assert version == null;
+                    continue;
+                }
+                if (version == null) {
+                    e.setValue(version = get(computer));
+                }
+                markNodeOfflineOrOnline(computer, version, monitor);
+            }
+            return data;
+        }
+
+        private void markNodeOfflineOrOnline(Computer c, String agentVersionStr, JVMVersionMonitor monitor) {
+            if (agentVersionStr == null) {
+                return;
+            }
+            Runtime.Version agentVersion;
+            try {
+                agentVersion = Runtime.Version.parse(agentVersionStr);
+            } catch (IllegalArgumentException e) {
+                LOGGER.log(Level.WARNING, "Failed to parse agent version: " + agentVersionStr, e);
+                return;
+            }
+            final JVMVersionComparator jvmVersionComparator =
+                    new JVMVersionComparator(CONTROLLER_VERSION, agentVersion, monitor.comparisonMode);
+
+            if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
+                if (monitor.disconnect) {
+                    LOGGER.warning(
+                            Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersionStr));
+                    markOffline(c, new JVMMismatchCause(Messages.JVMVersionMonitor_OfflineCause()));
+                } else {
+                    LOGGER.finer("Version incompatibility detected, but keeping the agent '"
+                            + c.getName()
+                            + "' online per the node monitor configuration");
+                }
+            } else {
+                if (c.isOffline() && c.getOfflineCause() instanceof JVMMismatchCause) {
+                    markOnline(c);
+                }
+            }
+        }
 
         @Override
         @NonNull
@@ -123,17 +148,33 @@ public class JVMVersionMonitor extends NodeMonitor {
             return new JavaVersion();
         }
 
-        @Override // Just augmenting visibility
-        public boolean markOffline(Computer c, OfflineCause oc) {
-            return super.markOffline(c, oc);
-        }
-
         public ListBoxModel doFillComparisonModeItems() {
             ListBoxModel items = new ListBoxModel();
             for (JVMVersionComparator.ComparisonMode goal : JVMVersionComparator.ComparisonMode.values()) {
                 items.add(goal.getDescription(), goal.name());
             }
             return items;
+        }
+    }
+
+    public static class JVMMismatchCause extends MonitorOfflineCause {
+
+        private final String message;
+
+        public JVMMismatchCause(String message) {
+            this.message = message;
+        }
+
+        @Override
+        @Exported(name = "description")
+        public String toString() {
+            return message;
+        }
+
+        @NonNull
+        @Override
+        public Class<? extends NodeMonitor> getTrigger() {
+            return JVMVersionMonitor.class;
         }
     }
 

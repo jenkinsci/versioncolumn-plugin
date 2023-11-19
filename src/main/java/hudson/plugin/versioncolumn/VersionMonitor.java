@@ -28,6 +28,7 @@ import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
 import hudson.node_monitors.AbstractNodeMonitorDescriptor;
+import hudson.node_monitors.MonitorOfflineCause;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Launcher;
 import hudson.slaves.OfflineCause;
@@ -36,6 +37,7 @@ import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.export.Exported;
 
 public class VersionMonitor extends NodeMonitor {
 
@@ -59,8 +61,12 @@ public class VersionMonitor extends NodeMonitor {
             String version = c.getChannel().call(new SlaveVersion());
             if (version == null || !version.equals(masterVersion)) {
                 if (!isIgnored()) {
-                    markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
+                    markOffline(c, new RemotingVersionMismatchCause(Messages.VersionMonitor_OfflineCause()));
                     LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                }
+            } else {
+                if (c.isOffline() && c.getOfflineCause() instanceof RemotingVersionMismatchCause) {
+                    markOnline(c);
                 }
             }
             return version;
@@ -76,6 +82,27 @@ public class VersionMonitor extends NodeMonitor {
             return new VersionMonitor();
         }
     };
+
+    public static class RemotingVersionMismatchCause extends MonitorOfflineCause {
+
+        private final String message;
+
+        public RemotingVersionMismatchCause(String message) {
+            this.message = message;
+        }
+
+        @Override
+        @Exported(name = "description")
+        public String toString() {
+            return message;
+        }
+
+        @NonNull
+        @Override
+        public Class<? extends NodeMonitor> getTrigger() {
+            return VersionMonitor.class;
+        }
+    }
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 
