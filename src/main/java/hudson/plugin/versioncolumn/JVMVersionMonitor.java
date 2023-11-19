@@ -29,12 +29,9 @@ import hudson.Util;
 import hudson.model.Computer;
 import hudson.model.ComputerSet;
 import hudson.node_monitors.AbstractAsyncNodeMonitorDescriptor;
-import hudson.node_monitors.AbstractDiskSpaceMonitor;
-import hudson.node_monitors.DiskSpaceMonitorDescriptor;
 import hudson.node_monitors.MonitorOfflineCause;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Callable;
-import hudson.slaves.OfflineCause;
 import hudson.util.ListBoxModel;
 import java.io.IOException;
 import java.util.Map;
@@ -90,7 +87,8 @@ public class JVMVersionMonitor extends NodeMonitor {
         protected Map<Computer, String> monitor() throws InterruptedException {
             Result<String> base = monitorDetailed();
             Map<Computer, String> data = base.getMonitoringData();
-            JVMVersionMonitor monitor = (JVMVersionMonitor) ComputerSet.getMonitors().get(this);
+            JVMVersionMonitor monitor =
+                    (JVMVersionMonitor) ComputerSet.getMonitors().get(this);
             for (Map.Entry<Computer, String> e : data.entrySet()) {
                 Computer computer = e.getKey();
                 String version = e.getValue();

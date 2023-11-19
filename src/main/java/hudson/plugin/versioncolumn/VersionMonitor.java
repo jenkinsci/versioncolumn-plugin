@@ -31,7 +31,6 @@ import hudson.node_monitors.AbstractNodeMonitorDescriptor;
 import hudson.node_monitors.MonitorOfflineCause;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Launcher;
-import hudson.slaves.OfflineCause;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
