@@ -35,10 +35,8 @@ import hudson.slaves.OfflineCause;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
-import net.sf.json.JSONObject;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
 
 public class VersionMonitor extends NodeMonitor {
 
