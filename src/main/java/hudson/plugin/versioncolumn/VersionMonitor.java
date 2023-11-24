@@ -87,11 +87,6 @@ public class VersionMonitor extends NodeMonitor {
         public String getDisplayName() {
             return Messages.VersionMonitor_DisplayName();
         }
-
-        @Override
-        public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData) throws FormException {
-            return new VersionMonitor();
-        }
     }
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
