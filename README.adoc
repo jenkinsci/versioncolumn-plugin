@@ -78,3 +78,17 @@ a| Agent must run a JVM whose https://docs.oracle.com/en/java/javase/11/docs/api
 == Configuration Page
 
 image::images/configuration-options.png[Enable Versions Node Monitors]
+
+== Configuration as code
+
+The node monitors can be configured automatically with the following link:https://plugins.jenkins.io/configuration-as-code/[configuration as code] example:
+
+[source,yaml]
+----
+jenkins:
+  nodeMonitors:
+  - jvmVersion:
+      comparisonMode: RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE
+      disconnect: false
+  - "remotingVersion"
+----
