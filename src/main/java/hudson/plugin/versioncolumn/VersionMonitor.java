@@ -24,6 +24,7 @@
 package hudson.plugin.versioncolumn;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
@@ -34,12 +35,15 @@ import hudson.slaves.OfflineCause;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.StaplerRequest;
+import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 public class VersionMonitor extends NodeMonitor {
 
     private static final String masterVersion = Launcher.VERSION;
+
+    @DataBoundConstructor
+    public VersionMonitor() {}
 
     @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
@@ -52,8 +56,19 @@ public class VersionMonitor extends NodeMonitor {
         return version;
     }
 
+    @SuppressFBWarnings(value = "MS_PKGPROTECT", justification = "for backward compatibility")
+    public static /*almost final*/ AbstractNodeMonitorDescriptor<String> DESCRIPTOR;
+
     @Extension
-    public static final AbstractNodeMonitorDescriptor<String> DESCRIPTOR = new AbstractNodeMonitorDescriptor<>() {
+    @Symbol("remotingVersion")
+    public static class DescriptorImpl extends AbstractNodeMonitorDescriptor<String> {
+
+        @SuppressFBWarnings(
+                value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+                justification = "for backward compatibility")
+        public DescriptorImpl() {
+            DESCRIPTOR = this;
+        }
 
         protected String monitor(Computer c) throws IOException, InterruptedException {
             String version = c.getChannel().call(new SlaveVersion());
@@ -70,12 +85,7 @@ public class VersionMonitor extends NodeMonitor {
         public String getDisplayName() {
             return Messages.VersionMonitor_DisplayName();
         }
-
-        @Override
-        public NodeMonitor newInstance(StaplerRequest req, @NonNull JSONObject formData) throws FormException {
-            return new VersionMonitor();
-        }
-    };
+    }
 
     private static final class SlaveVersion extends MasterToSlaveCallable<String, IOException> {
 
