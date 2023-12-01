@@ -5,6 +5,10 @@ This plugin offers two _node monitors_:
 * Remoting Version
 * JVM Version
 
+== Plugin tutorial
+
+image:images/plugin-tutorial-video.png[link=https://www.youtube.com/watch?v=L2Uomz8RWUM&t=312s]
+
 == Remoting Version Node Monitor
 
 NOTE: The link:https://github.com/jenkinsci/remoting/blob/master/README.md[remoting module] handles the network connection between the Jenkins controller and agents.
