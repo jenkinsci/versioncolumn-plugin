@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.export.Exported;
 
@@ -81,6 +82,7 @@ public class JVMVersionMonitor extends NodeMonitor {
     }
 
     @Extension
+    @Symbol("jvmVersion")
     public static class JvmVersionDescriptor extends AbstractAsyncNodeMonitorDescriptor<String> {
 
         @Override
