@@ -35,11 +35,9 @@ import hudson.remoting.Launcher;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
-import net.sf.json.JSONObject;
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.export.Exported;
 import org.jenkinsci.Symbol;
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.export.Exported;
 
 public class VersionMonitor extends NodeMonitor {
 
