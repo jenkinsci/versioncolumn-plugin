@@ -13,7 +13,7 @@
   <version>${changelist}</version>
   <packaging>hpi</packaging>
   <name>Jenkins Versions Node Monitors plugin</name>
-  <url>https://github.com/jenkinsci/versioncolumn-plugin/blob/master/README.adoc</url>
+  <url>https://github.com/jenkinsci/versioncolumn-plugin/</url>
 
   <licenses>
     <license>
