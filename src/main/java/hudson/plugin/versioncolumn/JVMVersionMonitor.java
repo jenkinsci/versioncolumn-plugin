@@ -49,20 +49,21 @@ public class JVMVersionMonitor extends NodeMonitor {
 
     private JVMVersionComparator.ComparisonMode comparisonMode =
             JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE;
-    private boolean disconnect = true;
+    private transient Boolean disconnect;
 
     @DataBoundConstructor
-    public JVMVersionMonitor(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
+    public JVMVersionMonitor(JVMVersionComparator.ComparisonMode comparisonMode) {
         this.comparisonMode = comparisonMode;
-        this.disconnect = disconnect;
+    }
+
+    public Object readResolve() {
+        if (disconnect != null) {
+            this.setIgnored(!disconnect);
+        }
+        return this;
     }
 
     public JVMVersionMonitor() {}
-
-    @SuppressWarnings("unused") // jelly
-    public boolean isDisconnect() {
-        return disconnect;
-    }
 
     @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
@@ -120,8 +121,8 @@ public class JVMVersionMonitor extends NodeMonitor {
             final JVMVersionComparator jvmVersionComparator =
                     new JVMVersionComparator(CONTROLLER_VERSION, agentVersion, monitor.comparisonMode);
 
-            if (!isIgnored() && jvmVersionComparator.isNotCompatible()) {
-                if (monitor.disconnect) {
+            if (jvmVersionComparator.isNotCompatible()) {
+                if (!isIgnored()) {
                     LOGGER.warning(
                             Messages.JVMVersionMonitor_MarkedOffline(c.getName(), CONTROLLER_VERSION, agentVersionStr));
                     markOffline(c, new JVMMismatchCause(Messages.JVMVersionMonitor_OfflineCause()));
@@ -129,10 +130,13 @@ public class JVMVersionMonitor extends NodeMonitor {
                     LOGGER.finer("Version incompatibility detected, but keeping the agent '"
                             + c.getName()
                             + "' online per the node monitor configuration");
+                    if (c.isOffline() && c.getOfflineCause() instanceof JVMMismatchCause) {
+                        c.setTemporarilyOffline(false, null);
+                    }
                 }
             } else {
                 if (c.isOffline() && c.getOfflineCause() instanceof JVMMismatchCause) {
-                    markOnline(c);
+                    c.setTemporarilyOffline(false, null);
                 }
             }
         }

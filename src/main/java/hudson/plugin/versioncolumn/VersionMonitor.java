@@ -33,6 +33,7 @@ import hudson.node_monitors.MonitorOfflineCause;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Launcher;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
 import org.jenkinsci.Symbol;
@@ -77,10 +78,14 @@ public class VersionMonitor extends NodeMonitor {
                 if (!isIgnored()) {
                     markOffline(c, new RemotingVersionMismatchCause(Messages.VersionMonitor_OfflineCause()));
                     LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                } else {
+                    if (c.isOffline() && c.getOfflineCause() instanceof RemotingVersionMismatchCause) {
+                        c.setTemporarilyOffline(false, null);
+                    }
                 }
             } else {
                 if (c.isOffline() && c.getOfflineCause() instanceof RemotingVersionMismatchCause) {
-                    markOnline(c);
+                    c.setTemporarilyOffline(false, null);
                 }
             }
             return version;
