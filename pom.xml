@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.76</version>
+    <version>4.77</version>
     <relativePath />
   </parent>
 
@@ -13,7 +13,7 @@
   <version>${changelist}</version>
   <packaging>hpi</packaging>
   <name>Jenkins Versions Node Monitors plugin</name>
-  <url>https://github.com/jenkinsci/versioncolumn-plugin/blob/master/README.adoc</url>
+  <url>https://github.com/jenkinsci/versioncolumn-plugin/</url>
 
   <licenses>
     <license>
@@ -59,7 +59,7 @@
     <changelist>999999-SNAPSHOT</changelist>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-    <jenkins.version>2.435</jenkins.version>
+    <jenkins.version>2.440</jenkins.version>
     <spotbugs.effort>Max</spotbugs.effort>
     <spotbugs.threshold>Low</spotbugs.threshold>
     <spotless.check.skip>false</spotless.check.skip>
@@ -70,7 +70,7 @@
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-2.401.x</artifactId>
-        <version>2643.vfa_93ff299d20</version>
+        <version>2745.vc7b_fe4c876fa_</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
