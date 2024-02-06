@@ -53,8 +53,7 @@ class JVMVersionMonitorTest {
         assertEquals(asError("1.1.1.1+1"), object.toHtml("1.1.1.1+1"));
 
         // RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE
-        object = new JVMVersionMonitor(
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
+        object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
         assertEquals(
                 Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
         assertEquals(majorGreater(), object.toHtml(majorGreater()));
