@@ -39,7 +39,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
 import org.jenkinsci.Symbol;
+import org.kohsuke.accmod.Restricted;
+import org.kohsuke.accmod.restrictions.DoNotUse;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.export.Exported;
 
 public class JVMVersionMonitor extends NodeMonitor {
@@ -56,14 +59,25 @@ public class JVMVersionMonitor extends NodeMonitor {
         this.comparisonMode = comparisonMode;
     }
 
+    public JVMVersionMonitor() {}
+
+    @SuppressWarnings("unused") // jelly
+    public boolean isDisconnect() {
+        return !isIgnored();
+    }
+
+    // should be restricted/deprecated but that breaks casc
+    @DataBoundSetter
+    public void setDisconnect(boolean disconnect) {
+        setIgnored(!disconnect);
+    }
+
     public Object readResolve() {
         if (disconnect != null) {
             this.setIgnored(!disconnect);
         }
         return this;
     }
-
-    public JVMVersionMonitor() {}
 
     @SuppressWarnings("unused") // jelly
     public String toHtml(String version) {
