@@ -11,44 +11,37 @@ class JVMVersionMonitorTest {
     private static Object[] parameters() {
         return new Object[][] {
             {
-                JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, false,
+                JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH,
             },
             {
-                JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH,
             },
             {
-                JVMVersionComparator.ComparisonMode.EXACT_MATCH, true,
+                JVMVersionComparator.ComparisonMode.EXACT_MATCH,
             },
             {
-                JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                JVMVersionComparator.ComparisonMode.EXACT_MATCH,
             },
             {
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
+                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
             },
             {
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, false,
+                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
             },
         };
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void checkDisconnect(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
-        JVMVersionMonitor object = new JVMVersionMonitor(comparisonMode, disconnect);
-        assertEquals(disconnect, object.isDisconnect());
-    }
-
-    @ParameterizedTest
-    @MethodSource("parameters")
-    public void checkComparisonMode(JVMVersionComparator.ComparisonMode comparisonMode, boolean disconnect) {
-        JVMVersionMonitor object = new JVMVersionMonitor(comparisonMode, disconnect);
+    public void checkComparisonMode(JVMVersionComparator.ComparisonMode comparisonMode) {
+        JVMVersionMonitor object = new JVMVersionMonitor(comparisonMode);
         assertEquals(comparisonMode, object.getComparisonMode());
     }
 
     @Test
     public void checkToHtmlRendering() throws Exception {
 
-        JVMVersionMonitor object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.EXACT_MATCH, false);
+        JVMVersionMonitor object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.EXACT_MATCH);
 
         // N/A
         assertEquals("N/A", object.toHtml(null));
@@ -60,8 +53,7 @@ class JVMVersionMonitorTest {
         assertEquals(asError("1.1.1.1+1"), object.toHtml("1.1.1.1+1"));
 
         // RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE
-        object = new JVMVersionMonitor(
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, false);
+        object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
         assertEquals(
                 Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
         assertEquals(majorGreater(), object.toHtml(majorGreater()));
@@ -69,7 +61,7 @@ class JVMVersionMonitorTest {
         assertEquals(asError(majorLower()), object.toHtml(majorLower()));
 
         // MAJOR_MINOR_MATCH
-        object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, false);
+        object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH);
         assertEquals(
                 Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
         assertEquals(majorGreater(), object.toHtml(majorGreater()));

@@ -29,14 +29,15 @@ import hudson.Extension;
 import hudson.Util;
 import hudson.model.Computer;
 import hudson.node_monitors.AbstractNodeMonitorDescriptor;
+import hudson.node_monitors.MonitorOfflineCause;
 import hudson.node_monitors.NodeMonitor;
 import hudson.remoting.Launcher;
-import hudson.slaves.OfflineCause;
 import java.io.IOException;
 import java.util.logging.Logger;
 import jenkins.security.MasterToSlaveCallable;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.export.Exported;
 
 public class VersionMonitor extends NodeMonitor {
 
@@ -74,8 +75,16 @@ public class VersionMonitor extends NodeMonitor {
             String version = c.getChannel().call(new SlaveVersion());
             if (version == null || !version.equals(masterVersion)) {
                 if (!isIgnored()) {
-                    markOffline(c, OfflineCause.create(Messages._VersionMonitor_OfflineCause()));
+                    markOffline(c, new RemotingVersionMismatchCause(Messages.VersionMonitor_OfflineCause()));
                     LOGGER.warning(Messages.VersionMonitor_MarkedOffline(c.getName()));
+                } else {
+                    if (c.isOffline() && c.getOfflineCause() instanceof RemotingVersionMismatchCause) {
+                        c.setTemporarilyOffline(false, null);
+                    }
+                }
+            } else {
+                if (c.isOffline() && c.getOfflineCause() instanceof RemotingVersionMismatchCause) {
+                    c.setTemporarilyOffline(false, null);
                 }
             }
             return version;
@@ -84,6 +93,27 @@ public class VersionMonitor extends NodeMonitor {
         @NonNull
         public String getDisplayName() {
             return Messages.VersionMonitor_DisplayName();
+        }
+    }
+
+    public static class RemotingVersionMismatchCause extends MonitorOfflineCause {
+
+        private final String message;
+
+        public RemotingVersionMismatchCause(String message) {
+            this.message = message;
+        }
+
+        @Override
+        @Exported(name = "description")
+        public String toString() {
+            return message;
+        }
+
+        @NonNull
+        @Override
+        public Class<? extends NodeMonitor> getTrigger() {
+            return VersionMonitor.class;
         }
     }
 
