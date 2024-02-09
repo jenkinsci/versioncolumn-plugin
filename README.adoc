@@ -93,6 +93,7 @@ jenkins:
   nodeMonitors:
   - jvmVersion:
       comparisonMode: RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE
-      disconnect: false
-  - "remotingVersion"
+      ignored: true
+  - remotingVersion:
+      ignored: true
 ----
