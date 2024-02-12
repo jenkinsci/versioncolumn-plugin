@@ -1,16 +1,6 @@
 <?jelly escape-by-default='true'?>
 <div>
-    This plugin offers two node monitors, which makes available two additional columns under the "Manage Nodes"
-    (/computer) page.
-
-    <ul>
-        <li>One for Remoting version in use</li>
-        <li>One for JVM version in use</li>
-    </ul>
-
-    <p>Each monitor includes a way to make temporarily offline the agents that do not use the same/compatible version
-        than
-        the one on the Controller node.
-    </p>
-
+    This plugin adds two node monitors, Java virtual machine (JVM) version and remoting version.
+    The new node monitors add two additional columns to the "Manage Nodes" (/computer) page.
+    The new node monitors allow administrators to take agents offline when agents and the controller have different versions of remoting or JVM.
 </div>
