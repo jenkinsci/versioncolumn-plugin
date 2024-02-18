@@ -34,60 +34,60 @@ Even without this plugin, it is **critical** to the health of your Jenkins clust
 * Java 11.0.21  agent will not be disconnected from a Java 11.0.22  controller
 * Java 11.0.22  agent will not be disconnected from a Java 11.0.21  controller
 * Java 11.0.22  agent will not be disconnected from a Java 11.0.22  controller
-* Java 17.0.4   agent will not be disconnected from a Java 11.0.22  controller
-* Java 11.0.22  agent **will be disconnected** from a Java 17.0.4   controller
-* Java 17.0.4   agent will not be disconnected from a Java 17.0.4   controller
-* Java 17.0.4   agent will not be disconnected from a Java 17.0.4.1 controller
-* Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4   controller
-* Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4.1 controller
-* Java 17.0.5+8 agent will not be disconnected from a Java 17.0.5+7 controller
-* Java 17.0.5+7 agent will not be disconnected from a Java 17.0.5+8 controller
-* Java 17.0.4   agent **will be disconnected** from a Java 21.0.2   controller
-* Java 21.0.2   agent will not be disconnected from a Java 17.0.4   controller
+* Java 17.0.8   agent will not be disconnected from a Java 11.0.22  controller
+* Java 11.0.22  agent **will be disconnected** from a Java 17.0.8   controller
+* Java 17.0.8   agent will not be disconnected from a Java 17.0.8   controller
+* Java 17.0.8   agent will not be disconnected from a Java 17.0.8.1 controller
+* Java 17.0.8.1 agent will not be disconnected from a Java 17.0.8   controller
+* Java 17.0.8.1 agent will not be disconnected from a Java 17.0.8.1 controller
+* Java 17.0.9+9 agent will not be disconnected from a Java 17.0.9+7 controller
+* Java 17.0.9+7 agent will not be disconnected from a Java 17.0.9+9 controller
+* Java 17.0.8   agent **will be disconnected** from a Java 21.0.2   controller
+* Java 21.0.2   agent will not be disconnected from a Java 17.0.8   controller
 * Java 21.0.1   agent will not be disconnected from a Java 21.0.2   controller
 * Java 21.0.2   agent will not be disconnected from a Java 21.0.1   controller
 * Java 21.0.2   agent will not be disconnected from a Java 21.0.2   controller
 
 | `Paranoid`
-a| Agent must run a JVM whose https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html[version number] -- including feature-release counter, interim-release counter, update-release counter, and patch-release counter (e.g., 11.0.22 or 17.0.4.1) but _not_ including pre-release and build information (for example, 11.0.22+7, 17.0.10+7, or 21.0.2+13) -- is *greater than or equal to* that of the controller.
+a| Agent must run a JVM whose https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html[version number] -- including feature-release counter, interim-release counter, update-release counter, and patch-release counter (e.g., 11.0.22 or 17.0.8.1) but _not_ including pre-release and build information (for example, 11.0.22+7, 17.0.10+7, or 21.0.2+13) -- is *greater than or equal to* that of the controller.
 
 **Examples**:
 
 * Java 11.0.21  agent **will be disconnected** from a Java 11.0.22  controller
 * Java 11.0.22  agent will not be disconnected from a Java 11.0.21  controller
 * Java 11.0.22  agent will not be disconnected from a Java 11.0.22  controller
-* Java 17.0.4   agent will not be disconnected from a Java 11.0.22  controller
-* Java 11.0.22  agent **will be disconnected** from a Java 17.0.4   controller
-* Java 17.0.4   agent will not be disconnected from a Java 17.0.4   controller
-* Java 17.0.4   agent **will be disconnected** from a Java 17.0.4.1 controller
-* Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4   controller
-* Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4.1 controller
-* Java 17.0.5+8 agent will not be disconnected from a Java 17.0.5+7 controller
-* Java 17.0.5+7 agent will not be disconnected from a Java 17.0.5+8 controller
-* Java 17.0.4   agent **will be disconnected** from a Java 21.0.2   controller
-* Java 21.0.2   agent will not be disconnected from a Java 17.0.4   controller
+* Java 17.0.8   agent will not be disconnected from a Java 11.0.22  controller
+* Java 11.0.22  agent **will be disconnected** from a Java 17.0.8   controller
+* Java 17.0.8   agent will not be disconnected from a Java 17.0.8   controller
+* Java 17.0.8   agent **will be disconnected** from a Java 17.0.8.1 controller
+* Java 17.0.8.1 agent will not be disconnected from a Java 17.0.8   controller
+* Java 17.0.8.1 agent will not be disconnected from a Java 17.0.8.1 controller
+* Java 17.0.9+9 agent will not be disconnected from a Java 17.0.9+7 controller
+* Java 17.0.9+7 agent will not be disconnected from a Java 17.0.9+9 controller
+* Java 17.0.8   agent **will be disconnected** from a Java 21.0.2   controller
+* Java 21.0.2   agent will not be disconnected from a Java 17.0.8   controller
 * Java 21.0.1   agent **will be disconnected** from a Java 21.0.2   controller
 * Java 21.0.2   agent will not be disconnected from a Java 21.0.1   controller
 * Java 21.0.2   agent will not be disconnected from a Java 21.0.2   controller
 
 | `Paranoid++`
-a| Agent must run a JVM whose https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html[version number] -- including feature-release counter, interim-release counter, update-release counter, and patch-release counter (e.g., 11.0.22 or 17.0.4.1) but _not_ including pre-release and build information (for example, 11.0.22+7, 17.0.10+7, or 21.0.2+13) -- is *equal to* that of the controller.
+a| Agent must run a JVM whose https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runtime.Version.html[version number] -- including feature-release counter, interim-release counter, update-release counter, and patch-release counter (e.g., 11.0.22 or 17.0.8.1) but _not_ including pre-release and build information (for example, 11.0.22+7, 17.0.10+7, or 21.0.2+13) -- is *equal to* that of the controller.
 
 **Examples**:
 
 * Java 11.0.21  agent **will be disconnected** from a Java 11.0.22  controller
 * Java 11.0.22  agent **will be disconnected** from a Java 11.0.21  controller
 * Java 11.0.22  agent will not be disconnected from a Java 11.0.22  controller
-* Java 17.0.4   agent **will be disconnected** from a Java 11.0.22  controller
-* Java 11.0.22  agent **will be disconnected** from a Java 17.0.4   controller
-* Java 17.0.4   agent will not be disconnected from a Java 17.0.4   controller
-* Java 17.0.4   agent **will be disconnected** from a Java 17.0.4.1 controller
-* Java 17.0.4.1 agent **will be disconnected** from a Java 17.0.4   controller
-* Java 17.0.4.1 agent will not be disconnected from a Java 17.0.4.1 controller
-* Java 17.0.5+8 agent will not be disconnected from a Java 17.0.5+7 controller
-* Java 17.0.5+7 agent will not be disconnected from a Java 17.0.5+8 controller
-* Java 17.0.4   agent **will be disconnected** from a Java 21.0.2   controller
-* Java 21.0.2   agent **will be disconnected** from a Java 17.0.4   controller
+* Java 17.0.8   agent **will be disconnected** from a Java 11.0.22  controller
+* Java 11.0.22  agent **will be disconnected** from a Java 17.0.8   controller
+* Java 17.0.8   agent will not be disconnected from a Java 17.0.8   controller
+* Java 17.0.8   agent **will be disconnected** from a Java 17.0.8.1 controller
+* Java 17.0.8.1 agent **will be disconnected** from a Java 17.0.8   controller
+* Java 17.0.8.1 agent will not be disconnected from a Java 17.0.8.1 controller
+* Java 17.0.9+9 agent will not be disconnected from a Java 17.0.9+7 controller
+* Java 17.0.9+7 agent will not be disconnected from a Java 17.0.9+9 controller
+* Java 17.0.8   agent **will be disconnected** from a Java 21.0.2   controller
+* Java 21.0.2   agent **will be disconnected** from a Java 17.0.8   controller
 * Java 21.0.1   agent **will be disconnected** from a Java 21.0.2   controller
 * Java 21.0.2   agent **will be disconnected** from a Java 21.0.1   controller
 * Java 21.0.2   agent will not be disconnected from a Java 21.0.2   controller
