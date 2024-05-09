@@ -72,7 +72,11 @@ public class VersionMonitor extends NodeMonitor {
         }
 
         protected String monitor(Computer c) throws IOException, InterruptedException {
-            String version = c.getChannel().call(new SlaveVersion());
+            hudson.remoting.VirtualChannel channel = c.getChannel();
+            if (channel == null) {
+                return "unknown-version";
+            }
+            String version = channel.call(new SlaveVersion());
             if (version == null || !version.equals(masterVersion)) {
                 if (!isIgnored()) {
                     markOffline(c, new RemotingVersionMismatchCause(Messages.VersionMonitor_OfflineCause()));
