@@ -129,6 +129,7 @@ class JVMVersionMonitorTest {
             assertEquals(mode.name(), items.get(mode.ordinal()).value, "The item value should match the mode's name");
         }
     }
+
     @Test
     public void testReadResolveWithDisconnect() {
         // Create an instance of JVMVersionMonitor with no arguments
