@@ -79,12 +79,6 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.jenkins-ci.modules</groupId>
       <artifactId>instance-identity</artifactId>
       <scope>test</scope>
@@ -92,7 +86,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>5.12.0</version>
+      <version>5.14.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
