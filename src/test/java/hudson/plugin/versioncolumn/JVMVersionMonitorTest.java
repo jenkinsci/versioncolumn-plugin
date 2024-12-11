@@ -168,8 +168,8 @@ class JVMVersionMonitorTest {
     public void testGetTrigger() {
         // Create an instance of JVMVersionMonitor
         JVMVersionMonitor.JVMMismatchCause monitor = new JVMVersionMonitor.JVMMismatchCause("Test");
-        assertEquals("Test", monitor.toString());
 
+        assertEquals("Test", monitor.toString());
 
         // Call the getTrigger method
         Class<? extends NodeMonitor> trigger = monitor.getTrigger();
