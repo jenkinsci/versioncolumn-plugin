@@ -2,6 +2,7 @@ package hudson.plugin.versioncolumn;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import hudson.node_monitors.NodeMonitor;
 import hudson.util.ListBoxModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -161,6 +162,23 @@ class JVMVersionMonitorTest {
 
         // Since disconnect is null, isIgnored() should return false (default behavior)
         assertFalse(monitor.isIgnored());
+    }
+
+    @Test
+    public void testGetTrigger() {
+        // Create an instance of JVMVersionMonitor
+        JVMVersionMonitor.JVMMismatchCause monitor = new JVMVersionMonitor.JVMMismatchCause("Test");
+
+        // Assert that the toString method returns the expected value.
+        assertEquals("Test", monitor.toString());
+
+        // Call the getTrigger method
+        Class<? extends NodeMonitor> trigger = monitor.getTrigger();
+
+        // Assert that the returned value is not null
+        assertNotNull(trigger, "getTrigger should not be null");
+        // Assert that the returned class is the expected class
+        assertEquals(JVMVersionMonitor.class, trigger, "getTrigger should return JVMVersionMonitor.class");
     }
 
     private String majorVersionMatch() {
