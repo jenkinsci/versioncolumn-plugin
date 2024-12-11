@@ -169,6 +169,7 @@ class JVMVersionMonitorTest {
         // Create an instance of JVMVersionMonitor
         JVMVersionMonitor.JVMMismatchCause monitor = new JVMVersionMonitor.JVMMismatchCause("Test");
 
+        // Assert that the toString method returns the expected value
         assertEquals("Test", monitor.toString());
 
         // Call the getTrigger method
