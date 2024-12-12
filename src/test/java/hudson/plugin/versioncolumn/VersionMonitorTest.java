@@ -113,7 +113,7 @@ public class VersionMonitorTest {
     @Test
     public void testMonitor_DifferentVersion_Ignored() throws IOException, InterruptedException {
         VersionMonitor.DescriptorImpl descriptor = spy(new VersionMonitor.DescriptorImpl());
-        doReturn(true).when(descriptor).isIgnored(); // Ensure isIgnored returns true
+        doReturn(true).when(descriptor).isIgnored(); // Ensure isIgnored returns true.
 
         Computer computer = mock(Computer.class);
         VirtualChannel channel = mock(VirtualChannel.class);
