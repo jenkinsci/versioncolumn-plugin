@@ -1,5 +1,8 @@
 package hudson.plugin.versioncolumn;
 
+import static hudson.plugin.versioncolumn.JVMVersionComparator.ComparisonMode.EXACT_MATCH;
+import static hudson.plugin.versioncolumn.JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
+import static hudson.plugin.versioncolumn.JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -11,137 +14,119 @@ public class JVMVersionComparatorTest {
     private static Object[] parameters() {
         return new Object[][] {
             {
-                "11.0.16",
-                "11.0.17",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "17.0.12", "17.0.12", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "11.0.17",
-                "11.0.16",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "17.0.12", "17.0.12.1", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "11.0.17",
-                "11.0.17",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "17.0.12.1", "17.0.12", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.4", "11.0.17", JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
+                "17.0.12.1", "17.0.12.1", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "11.0.17",
-                "17.0.4",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                false,
+                "17.0.13+8", "17.0.13+7", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.4", "17.0.4", JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
+                "17.0.13+7", "17.0.13+8", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.4",
-                "17.0.4.1",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "21.0.4", "21.0.4", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.4.1",
-                "17.0.4",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "21.0.4", "21.0.4.1", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.4.1",
-                "17.0.4.1",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "21.0.4.1", "21.0.4", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.5+8",
-                "17.0.5+7",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "21.0.4.1", "21.0.4.1", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "17.0.5+7",
-                "17.0.5+8",
-                JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE,
-                true,
+                "21.0.5+8", "21.0.5+7", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "11.0.16", "11.0.17", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, false,
+                "21.0.5+7", "21.0.5+8", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
             },
             {
-                "11.0.17", "11.0.16", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "17.0.12", "17.0.12", MAJOR_MINOR_MATCH, true,
             },
             {
-                "11.0.17", "11.0.17", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "17.0.12", "17.0.12.1", MAJOR_MINOR_MATCH, false,
             },
             {
-                "17.0.4", "11.0.17", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "17.0.12.1", "17.0.12", MAJOR_MINOR_MATCH, true,
             },
             {
-                "11.0.17", "17.0.4", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, false,
+                "17.0.12.1", "17.0.12.1", MAJOR_MINOR_MATCH, true,
             },
             {
-                "17.0.4", "17.0.4", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "17.0.13+8", "17.0.13+7", MAJOR_MINOR_MATCH, true,
             },
             {
-                "17.0.4", "17.0.4.1", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, false,
+                "17.0.13+7", "17.0.13+8", MAJOR_MINOR_MATCH, true,
             },
             {
-                "17.0.4.1", "17.0.4", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "21.0.4", "21.0.4", MAJOR_MINOR_MATCH, true,
             },
             {
-                "17.0.4.1", "17.0.4.1", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "21.0.4", "21.0.4.1", MAJOR_MINOR_MATCH, false,
             },
             {
-                "17.0.5+8", "17.0.5+7", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "21.0.4.1", "21.0.4", MAJOR_MINOR_MATCH, true,
             },
             {
-                "17.0.5+7", "17.0.5+8", JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH, true,
+                "21.0.4.1", "21.0.4.1", MAJOR_MINOR_MATCH, true,
             },
             {
-                "11.0.16", "11.0.17", JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                "21.0.5+8", "21.0.5+7", MAJOR_MINOR_MATCH, true,
             },
             {
-                "11.0.17", "11.0.16", JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                "21.0.5+7", "21.0.5+8", MAJOR_MINOR_MATCH, true,
             },
             {
-                "11.0.17", "11.0.17", JVMVersionComparator.ComparisonMode.EXACT_MATCH, true,
+                "17.0.12", "17.0.12", EXACT_MATCH, true,
             },
             {
-                "17.0.4", "11.0.17", JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                "17.0.12", "17.0.12.1", EXACT_MATCH, false,
             },
             {
-                "11.0.17", "17.0.4", JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                "17.0.12.1", "17.0.12", EXACT_MATCH, false,
             },
             {
-                "17.0.4", "17.0.4", JVMVersionComparator.ComparisonMode.EXACT_MATCH, true,
+                "17.0.12.1", "17.0.12.1", EXACT_MATCH, true,
             },
             {
-                "17.0.4", "17.0.4.1", JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                "17.0.13+8", "17.0.13+7", EXACT_MATCH, true,
             },
             {
-                "17.0.4.1", "17.0.4", JVMVersionComparator.ComparisonMode.EXACT_MATCH, false,
+                "17.0.13+7", "17.0.13+8", EXACT_MATCH, true,
             },
             {
-                "17.0.4.1", "17.0.4.1", JVMVersionComparator.ComparisonMode.EXACT_MATCH, true,
+                "21.0.4", "21.0.4", EXACT_MATCH, true,
             },
             {
-                "17.0.5+8", "17.0.5+7", JVMVersionComparator.ComparisonMode.EXACT_MATCH, true,
+                "21.0.4", "21.0.4.1", EXACT_MATCH, false,
             },
             {
-                "17.0.5+7", "17.0.5+8", JVMVersionComparator.ComparisonMode.EXACT_MATCH, true,
+                "21.0.4.1", "21.0.4", EXACT_MATCH, false,
+            },
+            {
+                "21.0.4.1", "21.0.4.1", EXACT_MATCH, true,
+            },
+            {
+                "21.0.5+8", "21.0.5+7", EXACT_MATCH, true,
+            },
+            {
+                "21.0.5+7", "21.0.5+8", EXACT_MATCH, true,
             },
         };
     }
 
     @Test
     public void testGetDescription() {
-        JVMVersionComparator.ComparisonMode object = JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH;
+        JVMVersionComparator.ComparisonMode object = MAJOR_MINOR_MATCH;
         assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(), object.getDescription());
     }
 
