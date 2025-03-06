@@ -108,6 +108,28 @@ public class VersionMonitorTest {
     }
 
     @Test
+    public void testMonitor_DifferentVersion_NotIgnored() throws IOException, InterruptedException {
+        VersionMonitor.DescriptorImpl mockDescriptor = spy(new VersionMonitor.DescriptorImpl());
+        doReturn(false).when(mockDescriptor).isIgnored(); // Ensure isIgnored returns false
+
+        Computer computer = mock(Computer.class);
+        VirtualChannel channel = mock(VirtualChannel.class);
+        String differentVersion = "different-version"; // Different from Launcher.VERSION
+
+        // Set up the computer and channel behavior
+        when(computer.getChannel()).thenReturn(channel);
+        when(computer.getName()).thenReturn("test-computer");
+        when(channel.call(ArgumentMatchers.<MasterToSlaveCallable<String, IOException>>any()))
+                .thenReturn(differentVersion);
+
+        String result = mockDescriptor.monitor(computer);
+
+        assertEquals(differentVersion, result);
+
+        verify(computer).setTemporarilyOffline(eq(true), any(VersionMonitor.RemotingVersionMismatchCause.class));
+    }
+
+    @Test
     public void testMonitor_VersionIsNull_Ignored() throws IOException, InterruptedException {
         VersionMonitor.DescriptorImpl mockDescriptor = spy(new VersionMonitor.DescriptorImpl());
         doReturn(true).when(mockDescriptor).isIgnored(); // Ensure isIgnored returns true.
