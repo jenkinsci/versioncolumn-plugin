@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class JVMVersionComparatorTest {
+class JVMVersionComparatorTest {
 
-    private static Object[] parameters() {
+    static Object[] parameters() {
         return new Object[][] {
             {
                 "17.0.12", "17.0.12", RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE, true,
@@ -125,14 +125,13 @@ public class JVMVersionComparatorTest {
     }
 
     @Test
-    public void testGetDescription() {
-        JVMVersionComparator.ComparisonMode object = MAJOR_MINOR_MATCH;
-        assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(), object.getDescription());
+    void testGetDescription() {
+        assertEquals(Messages.JVMVersionMonitor_MAJOR_MINOR_MATCH(), MAJOR_MINOR_MATCH.getDescription());
     }
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void smokes(
+    void smokes(
             String agentVersion,
             String controllerVersion,
             JVMVersionComparator.ComparisonMode comparisonMode,
@@ -148,7 +147,7 @@ public class JVMVersionComparatorTest {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void notSmokes(
+    void notSmokes(
             String agentVersion,
             String controllerVersion,
             JVMVersionComparator.ComparisonMode comparisonMode,

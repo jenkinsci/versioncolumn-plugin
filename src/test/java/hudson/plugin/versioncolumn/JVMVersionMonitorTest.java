@@ -18,7 +18,7 @@ class JVMVersionMonitorTest {
         monitor.setDisconnect(false);
     }
 
-    private static Object[] parameters() {
+    static Object[] parameters() {
         return new Object[][] {
             {
                 JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH,
@@ -43,13 +43,13 @@ class JVMVersionMonitorTest {
 
     @ParameterizedTest
     @MethodSource("parameters")
-    public void checkComparisonMode(JVMVersionComparator.ComparisonMode comparisonMode) {
+    void checkComparisonMode(JVMVersionComparator.ComparisonMode comparisonMode) {
         JVMVersionMonitor object = new JVMVersionMonitor(comparisonMode);
         assertEquals(comparisonMode, object.getComparisonMode());
     }
 
     @Test
-    public void checkToHtmlRendering() throws Exception {
+    void checkToHtmlRendering() {
 
         JVMVersionMonitor object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.EXACT_MATCH);
 
@@ -80,14 +80,14 @@ class JVMVersionMonitorTest {
     }
 
     @Test
-    public void testIsDisconnect() {
+    void testIsDisconnect() {
         assertFalse(monitor.isDisconnect());
         monitor.setDisconnect(true);
         assertTrue(monitor.isDisconnect());
     }
 
     @Test
-    public void testSetDisconnect() {
+    void testSetDisconnect() {
         monitor.setDisconnect(true);
         assertTrue(monitor.isDisconnect());
         monitor.setDisconnect(false);
@@ -95,7 +95,7 @@ class JVMVersionMonitorTest {
     }
 
     @Test
-    public void testReadResolve() {
+    void testReadResolve() {
         monitor.setDisconnect(true);
         monitor.readResolve();
         assertTrue(monitor.isDisconnect());
@@ -105,7 +105,7 @@ class JVMVersionMonitorTest {
     }
 
     @Test
-    public void testDoFillComparisonModeItems() {
+    void testDoFillComparisonModeItems() {
         // Create an instance of JvmVersionDescriptor
         JVMVersionMonitor.JvmVersionDescriptor descriptor = new JVMVersionMonitor.JvmVersionDescriptor();
 
@@ -132,7 +132,7 @@ class JVMVersionMonitorTest {
     }
 
     @Test
-    public void testReadResolveWithDisconnect() {
+    void testReadResolveWithDisconnect() {
         // Create an instance of JVMVersionMonitor with no arguments
         JVMVersionMonitor monitor = new JVMVersionMonitor();
 
@@ -150,7 +150,7 @@ class JVMVersionMonitorTest {
     }
 
     @Test
-    public void testReadResolveWithoutDisconnect() {
+    void testReadResolveWithoutDisconnect() {
         // Create an instance of JVMVersionMonitor with no arguments
         JVMVersionMonitor monitor = new JVMVersionMonitor();
 
@@ -165,7 +165,7 @@ class JVMVersionMonitorTest {
     }
 
     @Test
-    public void testGetTrigger() {
+    void testGetTrigger() {
         // Create an instance of JVMVersionMonitor
         JVMVersionMonitor.JVMMismatchCause monitor = new JVMVersionMonitor.JVMMismatchCause("Test");
 
@@ -181,19 +181,19 @@ class JVMVersionMonitorTest {
         assertEquals(JVMVersionMonitor.class, trigger, "getTrigger should return JVMVersionMonitor.class");
     }
 
-    private String majorVersionMatch() {
+    private static String majorVersionMatch() {
         return Runtime.version().feature() + ".99.99.99+99";
     }
 
-    private String majorLower() {
+    private static String majorLower() {
         return "1.99.99.99+99";
     }
 
-    private String majorGreater() {
+    private static String majorGreater() {
         return "999.99.99.99+99";
     }
 
-    private String asError(String version) {
+    private static String asError(String version) {
         return "<span class=error style='display:inline-block'>" + version + "</span>";
     }
 }

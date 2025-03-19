@@ -7,23 +7,22 @@ import static org.hamcrest.xml.HasXPath.hasXPath;
 import hudson.model.User;
 import hudson.security.HudsonPrivateSecurityRealm;
 import org.htmlunit.xml.XmlPage;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.Issue;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.JenkinsRule.WebClient;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
-public class RESTAPITest {
-    @Rule
-    public JenkinsRule rule = new JenkinsRule();
+@WithJenkins
+class RESTAPITest {
 
-    private final String USER_NAME = "user-for-RESTAPITest";
+    private static final String USER_NAME = "user-for-RESTAPITest";
 
     private WebClient webClient = null;
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+    void setup(JenkinsRule rule) throws Exception {
         final String PASSWORD = "password-for-RESTAPITest";
         HudsonPrivateSecurityRealm securityRealm = new HudsonPrivateSecurityRealm(false, false, null);
         rule.jenkins.setSecurityRealm(securityRealm);
@@ -37,15 +36,15 @@ public class RESTAPITest {
     }
 
     @Test
-    public void securedAPILoginTest() throws Exception {
-        // Check that authnenticated access to the API is allowed
+    void securedAPILoginTest() throws Exception {
+        // Check that authenticated access to the API is allowed
         XmlPage w1 = (XmlPage) webClient.goTo("whoAmI/api/xml", "application/xml");
         assertThat(w1, hasXPath("//name", is(USER_NAME)));
     }
 
     @Issue("JENKINS-70074")
     @Test
-    public void securedAPITest() throws Exception {
+    void securedAPITest() throws Exception {
         // Interactive testing failed while this automated test did
         // not fail.  Unclear why they differ. Including this in the
         // test suite because it may prevent future issues.
