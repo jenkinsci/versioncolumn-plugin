@@ -150,8 +150,7 @@ class JVMVersionMonitorTest {
         // Assert that the result is the same object
         assertEquals(monitor, result);
 
-        // Verify that the isIgnored() method returns false (since disconnect was set to
-        // true)
+        // Verify that the isIgnored() method returns false (since disconnect was set to true)
         assertFalse(monitor.isIgnored());
     }
 
