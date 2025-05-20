@@ -226,8 +226,7 @@ class JVMVersionMonitorTest {
         // Create a descriptor instance
         JVMVersionMonitor.JvmVersionDescriptor descriptor = new JVMVersionMonitor.JvmVersionDescriptor();
 
-        // Use reflection to access and run the markNodeOfflineOrOnline method with null
-        // version
+        // Use reflection to access and run the markNodeOfflineOrOnline method with null version
         Method method = JVMVersionMonitor.JvmVersionDescriptor.class.getDeclaredMethod(
                 "markNodeOfflineOrOnline", Computer.class, String.class, JVMVersionMonitor.class);
         method.setAccessible(true);
@@ -248,8 +247,7 @@ class JVMVersionMonitorTest {
         // Create a descriptor instance
         JVMVersionMonitor.JvmVersionDescriptor descriptor = new JVMVersionMonitor.JvmVersionDescriptor();
 
-        // Use reflection to access and run the markNodeOfflineOrOnline method with
-        // invalid version
+        // Use reflection to access and run the markNodeOfflineOrOnline method with invalid version
         Method method = JVMVersionMonitor.JvmVersionDescriptor.class.getDeclaredMethod(
                 "markNodeOfflineOrOnline", Computer.class, String.class, JVMVersionMonitor.class);
         method.setAccessible(true);
@@ -322,14 +320,12 @@ class JVMVersionMonitorTest {
     @Test
     void testMonitorCallsMarkNodeOfflineOrOnline() throws Exception {
         // Test that monitor() calls markNodeOfflineOrOnline for each computer
-        // This simulates part of the monitor method without needing to mock static
-        // methods
+        // This simulates part of the monitor method without needing to mock static methods
 
         // Create a real descriptor
         JVMVersionMonitor.JvmVersionDescriptor descriptor = spy(new JVMVersionMonitor.JvmVersionDescriptor());
 
-        // Mock the markNodeOfflineOrOnline method (using doNothing to avoid actually
-        // calling it)
+        // Mock the markNodeOfflineOrOnline method (using doNothing to avoid actually calling it)
         Method markMethod = JVMVersionMonitor.JvmVersionDescriptor.class.getDeclaredMethod(
                 "markNodeOfflineOrOnline", Computer.class, String.class, JVMVersionMonitor.class);
         markMethod.setAccessible(true);
@@ -351,15 +347,13 @@ class JVMVersionMonitorTest {
         // Call markNodeOfflineOrOnline directly
         markMethod.invoke(descriptor, mockComputer, Runtime.version().toString(), mockMonitor);
 
-        // Verify the method was called - the actual implementation checks isOffline()
-        // first
+        // Verify the method was called - the actual implementation checks isOffline() first
         verify(mockComputer).isOffline();
     }
 
     @Test
     void testJVMMismatchCauseToString() {
-        // Test the JVMMismatchCause's toString method which is part of the monitoring
-        // process
+        // Test the JVMMismatchCause's toString method which is part of the monitoring process
         String testMsg = "Test JVM mismatch message";
         JVMVersionMonitor.JVMMismatchCause cause = new JVMVersionMonitor.JVMMismatchCause(testMsg);
         assertEquals(testMsg, cause.toString());
@@ -370,15 +364,13 @@ class JVMVersionMonitorTest {
         // Create an instance of JvmVersionDescriptor
         JVMVersionMonitor.JvmVersionDescriptor descriptor = spy(new JVMVersionMonitor.JvmVersionDescriptor());
 
-        // The monitor method will work on real data, but we can still verify some
-        // behaviors
+        // The monitor method will work on real data, but we can still verify some behaviors
         try {
             // Call monitor() which accesses internal details we can't mock directly
             Map<Computer, String> result = descriptor.monitor();
             assertNotNull(result, "Monitor result should not be null");
         } catch (Exception e) {
-            // This might throw depending on the environment, but we still increase coverage
-            // by executing the code path
+            // This might throw depending on the environment, but we still increase coverage by executing the code path
         }
     }
 
