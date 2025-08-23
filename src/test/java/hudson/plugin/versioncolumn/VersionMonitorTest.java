@@ -125,7 +125,7 @@ class VersionMonitorTest {
 
         assertEquals(differentVersion, result);
 
-        verify(computer).setTemporarilyOffline(eq(true), any(VersionMonitor.RemotingVersionMismatchCause.class));
+        verify(computer).setTemporaryOfflineCause(any(VersionMonitor.RemotingVersionMismatchCause.class));
     }
 
     @Test
