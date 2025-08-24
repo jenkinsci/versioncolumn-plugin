@@ -27,10 +27,9 @@ class JVMVersionMonitorJenkinsRuleTest {
     @Test
     void testMonitorWithNoAgent() throws Exception {
         Map<Computer, String> result = descriptor.monitor();
-        for (Computer agentComputer : j.jenkins.getComputers()) {
-            assertTrue(result.containsKey(agentComputer), "Missing " + agentComputer);
-            assertNotNull(result.get(agentComputer), "Null result for " + agentComputer);
-        }
+        Computer agentComputer = j.jenkins.getComputers()[0];
+        assertTrue(result.containsKey(agentComputer), "Missing " + agentComputer);
+        assertNotNull(result.get(agentComputer), "Null result for " + agentComputer);
         assertEquals(1, result.size(), "result is " + result.keySet());
     }
 
