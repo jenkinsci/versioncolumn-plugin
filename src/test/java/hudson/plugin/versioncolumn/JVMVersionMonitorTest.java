@@ -190,11 +190,7 @@ class JVMVersionMonitorTest {
     void testGetDisplayName() {
         // Create an instance of JvmVersionDescriptor
         JVMVersionMonitor.JvmVersionDescriptor descriptor = new JVMVersionMonitor.JvmVersionDescriptor();
-
-        // Verify that getDisplayName returns a non-null and non-empty value
-        String displayName = descriptor.getDisplayName();
-        assertNotNull(displayName, "Display name should not be null");
-        assertFalse(displayName.isEmpty(), "Display name should not be empty");
+        assertEquals("JVM Version", descriptor.getDisplayName());
     }
 
     @Test
@@ -357,39 +353,6 @@ class JVMVersionMonitorTest {
         String testMsg = "Test JVM mismatch message";
         JVMVersionMonitor.JVMMismatchCause cause = new JVMVersionMonitor.JVMMismatchCause(testMsg);
         assertEquals(testMsg, cause.toString());
-    }
-
-    @Test
-    void testMonitorWithNullComputer() throws InterruptedException {
-        // Create an instance of JvmVersionDescriptor
-        JVMVersionMonitor.JvmVersionDescriptor descriptor = spy(new JVMVersionMonitor.JvmVersionDescriptor());
-
-        // The monitor method will work on real data, but we can still verify some behaviors
-        try {
-            // Call monitor() which accesses internal details we can't mock directly
-            Map<Computer, String> result = descriptor.monitor();
-            assertNotNull(result, "Monitor result should not be null");
-        } catch (Exception e) {
-            // This might throw depending on the environment, but we still increase coverage by executing the code path
-        }
-    }
-
-    @Test
-    void testMonitorWithRealEnvironment() throws Exception {
-        // Test the monitor method using the real implementation
-        // This improves code coverage even if we can't verify all internal details
-
-        // Create a JvmVersionDescriptor
-        JVMVersionMonitor.JvmVersionDescriptor descriptor = new JVMVersionMonitor.JvmVersionDescriptor();
-
-        // Use reflection to invoke monitor() method
-        try {
-            // This calls the actual implementation of monitor() which improves coverage
-            descriptor.monitor();
-        } catch (Exception e) {
-            // Expected - if we can't fully mock internal details, we might get exceptions
-            // But we've still improved code coverage
-        }
     }
 
     private static String majorVersionMatch() {
