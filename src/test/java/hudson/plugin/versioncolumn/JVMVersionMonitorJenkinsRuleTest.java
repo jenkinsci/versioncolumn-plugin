@@ -36,9 +36,9 @@ class JVMVersionMonitorJenkinsRuleTest {
     @Test
     void testMonitorWithAgent() throws Exception {
         String firstResult = null;
-        boolean waitForAgentToConnect = true;
-        DumbSlave agent = j.createSlave(waitForAgentToConnect);
+        DumbSlave agent = j.createOnlineSlave();
         Map<Computer, String> result = descriptor.monitor();
+        assertTrue(result.containsKey(agent.getComputer()), "Agent " + agent + " not monitored");
         for (Computer agentComputer : j.jenkins.getComputers()) {
             assertTrue(result.containsKey(agentComputer), "Missing " + agentComputer);
             assertNotNull(result.get(agentComputer), "Null result for " + agentComputer);
