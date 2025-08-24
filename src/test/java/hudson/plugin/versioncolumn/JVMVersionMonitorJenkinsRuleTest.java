@@ -21,7 +21,6 @@ class JVMVersionMonitorJenkinsRuleTest {
     void setUp(JenkinsRule rule) {
         j = rule;
         monitor = new JVMVersionMonitor();
-        monitor.setDisconnect(false);
         descriptor = (JVMVersionMonitor.JvmVersionDescriptor) monitor.getDescriptor();
     }
 
