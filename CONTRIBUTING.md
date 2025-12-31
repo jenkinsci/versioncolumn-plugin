@@ -52,5 +52,4 @@ $ mvn clean -DforkCount=1C verify
 
 ## Report an Issue
 
-Use the ["Report an issue" page](https://www.jenkins.io/participate/report-issue/redirect/#15927) to submit bug reports.
-Please use the ["How to Report an Issue"](https://www.jenkins.io/participate/report-issue/) guidelines when reporting issues.
+Submit bug reports through the ["Create new issue" page](https://github.com/jenkinsci/versioncolumn-plugin/issues/new/choose).
