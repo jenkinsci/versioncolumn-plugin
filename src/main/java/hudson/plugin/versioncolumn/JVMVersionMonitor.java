@@ -84,10 +84,22 @@ public class JVMVersionMonitor extends NodeMonitor {
         }
         final JVMVersionComparator jvmVersionComparator =
                 new JVMVersionComparator(CONTROLLER_VERSION, Runtime.Version.parse(version), comparisonMode);
+        String display = VersionShortener.jvm(version);
         if (jvmVersionComparator.isNotCompatible()) {
-            return Util.wrapToErrorSpan(version);
+            return Util.wrapToErrorSpan(Util.escape(display));
         }
-        return version;
+        return Util.escape(display);
+    }
+
+    /** The full version for a tooltip, with the controller's version added if the node is incompatible. */
+    @SuppressWarnings("unused") // jelly
+    public String getTooltip(String version) {
+        if (version == null || version.equals("N/A")) {
+            return "";
+        }
+        final JVMVersionComparator jvmVersionComparator =
+                new JVMVersionComparator(CONTROLLER_VERSION, Runtime.Version.parse(version), comparisonMode);
+        return jvmVersionComparator.isNotCompatible() ? version + " (controller: " + CONTROLLER_VERSION + ")" : version;
     }
 
     public JVMVersionComparator.ComparisonMode getComparisonMode() {
