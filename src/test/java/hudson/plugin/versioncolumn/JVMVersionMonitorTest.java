@@ -64,24 +64,42 @@ class JVMVersionMonitorTest {
 
         // EXACT_MATCH
         assertEquals(
-                Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
-        assertEquals(asError("1.1.1.1+1"), object.toHtml("1.1.1.1+1"));
+                shortVersion(Runtime.version().toString()),
+                object.toHtml(Runtime.version().toString()));
+        assertEquals(asError("1.1.1.1"), object.toHtml("1.1.1.1+1"));
 
         // RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE
         object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.RUNTIME_GREATER_OR_EQUAL_MASTER_BYTECODE);
         assertEquals(
-                Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
-        assertEquals(majorGreater(), object.toHtml(majorGreater()));
-        assertEquals(majorVersionMatch(), object.toHtml(majorVersionMatch()));
-        assertEquals(asError(majorLower()), object.toHtml(majorLower()));
+                shortVersion(Runtime.version().toString()),
+                object.toHtml(Runtime.version().toString()));
+        assertEquals(shortVersion(majorGreater()), object.toHtml(majorGreater()));
+        assertEquals(shortVersion(majorVersionMatch()), object.toHtml(majorVersionMatch()));
+        assertEquals(asError(shortVersion(majorLower())), object.toHtml(majorLower()));
 
         // MAJOR_MINOR_MATCH
         object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.MAJOR_MINOR_MATCH);
         assertEquals(
-                Runtime.version().toString(), object.toHtml(Runtime.version().toString()));
-        assertEquals(majorGreater(), object.toHtml(majorGreater()));
-        assertEquals(majorVersionMatch(), object.toHtml(majorVersionMatch()));
-        assertEquals(asError(majorLower()), object.toHtml(majorLower()));
+                shortVersion(Runtime.version().toString()),
+                object.toHtml(Runtime.version().toString()));
+        assertEquals(shortVersion(majorGreater()), object.toHtml(majorGreater()));
+        assertEquals(shortVersion(majorVersionMatch()), object.toHtml(majorVersionMatch()));
+        assertEquals(asError(shortVersion(majorLower())), object.toHtml(majorLower()));
+    }
+
+    @Test
+    void checkTooltip() {
+        JVMVersionMonitor object = new JVMVersionMonitor(JVMVersionComparator.ComparisonMode.EXACT_MATCH);
+        String current = Runtime.version().toString();
+
+        assertEquals("", object.getTooltip(null));
+        assertEquals("", object.getTooltip("N/A"));
+        assertEquals(current, object.getTooltip(current));
+        assertEquals("1.1.1.1+1 (controller: " + current + ")", object.getTooltip("1.1.1.1+1"));
+    }
+
+    private static String shortVersion(String version) {
+        return VersionShortener.jvm(version);
     }
 
     @Test

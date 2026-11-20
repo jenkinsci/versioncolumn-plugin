@@ -50,13 +50,27 @@ class VersionMonitorTest {
     void testToHtml_SameVersion() {
         String remotingVersion = RemotingVersionInfo.getEmbeddedVersion().toString();
         assertEquals(Launcher.VERSION, remotingVersion);
-        assertEquals(Launcher.VERSION, versionMonitor.toHtml(remotingVersion));
+        assertEquals(VersionShortener.remoting(Launcher.VERSION), versionMonitor.toHtml(remotingVersion));
     }
 
     @Test
     void testToHtml_DifferentVersion() {
         String version = RemotingVersionInfo.getMinimumSupportedVersion().toString();
-        assertEquals(Util.wrapToErrorSpan(version), versionMonitor.toHtml(version));
+        assertEquals(Util.wrapToErrorSpan(VersionShortener.remoting(version)), versionMonitor.toHtml(version));
+    }
+
+    @Test
+    void testTooltip() {
+        String different = RemotingVersionInfo.getMinimumSupportedVersion().toString();
+        assertEquals("", versionMonitor.getTooltip(null));
+        assertEquals(Launcher.VERSION, versionMonitor.getTooltip(Launcher.VERSION));
+        assertEquals(different + " (controller: " + Launcher.VERSION + ")", versionMonitor.getTooltip(different));
+    }
+
+    @Test
+    void testToHtml_EscapesVersionReportedByAgent() {
+        String version = "<img src=x onerror=alert(1)>";
+        assertEquals(Util.wrapToErrorSpan("&lt;img src=x onerror=alert(1)&gt;"), versionMonitor.toHtml(version));
     }
 
     @Test
